@@ -1,0 +1,20 @@
+<Combine name="CodeQL" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="CodeQL" configuration="Debug" />
+      <Entry build="True" name="SQLDetector" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="CodeQL" configuration="Release" />
+      <Entry build="True" name="SQLDetector" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="CodeQL" single="True">
+    <Execute type="None" entry="CodeQL" />
+    <Execute type="None" entry="SQLDetector" />
+  </StartMode>
+  <Entries>
+    <Entry filename="CodeQL.mdp" />
+    <Entry filename="../../cesil/SQLDetector/SQLDetector.mdp" />
+  </Entries>
+</Combine>

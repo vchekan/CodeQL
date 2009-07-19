@@ -1,0 +1,391 @@
+// Parser Conflict Information for grammar file "cs2.y"
+
+Shift/Reduce conflict on symbol "EXTERN", parser will shift
+ Reduce 610:	extern_alias_directivesopt -> /* empty */
+ Shift "EXTERN":	State-0 -> State-1106
+  Items for From-state State 0
+    1 $accept: . compilation_unit EOF 
+  Items for Next-state State 1106
+    269 extern_alias_directive: EXTERN . ALIAS IDENTIFIER ';' 
+
+Shift/Reduce conflict on symbol "'['", parser will shift
+ Reduce 654:	attributesopt -> /* empty */
+ Shift "'['":	State-4 -> State-635
+  Items for From-state State 4
+    2 compilation_unit: extern_alias_directivesopt using_directivesopt . attributesopt namespace_member_declarationsopt 
+  Items for Next-state State 635
+    472 attribute_section: '[' . attribute_target_specifier attribute_list ']' 
+    473 attribute_section: '[' . attribute_list ']' 
+    474 attribute_section: '[' . attribute_target_specifier attribute_list ',' ']' 
+    475 attribute_section: '[' . attribute_list ',' ']' 
+
+Shift/Reduce conflict on symbol "EXTERN", parser will shift
+ Reduce 610:	extern_alias_directivesopt -> /* empty */
+ Shift "EXTERN":	State-17 -> State-1106
+  Items for From-state State 17
+    266 namespace_body: '{' . extern_alias_directivesopt using_directivesopt namespace_member_declarationsopt '}' 
+  Items for Next-state State 1106
+    269 extern_alias_directive: EXTERN . ALIAS IDENTIFIER ';' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-81 -> State-84
+  Items for From-state State 81
+    66 member_access: primary_expression '.' IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'?'", parser will shift
+ Reduce 9:	type -> type_name
+ Shift "'?'":	State-90 -> State-91
+  Items for From-state State 90
+    9 type: type_name .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+    10 type: type_name . '?' 
+    38 class_type: type_name . OBJECT 
+    34 non_nullable_value_type: type_name .
+	-lookahead: '?'
+  Items for Next-state State 91
+    10 type: type_name '?' .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+
+Shift/Reduce conflict on symbol "'?'", parser will shift
+ Reduce 34:	non_nullable_value_type -> type_name
+ Shift "'?'":	State-90 -> State-91
+  Items for From-state State 90
+    9 type: type_name .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+    10 type: type_name . '?' 
+    38 class_type: type_name . OBJECT 
+    34 non_nullable_value_type: type_name .
+	-lookahead: '?'
+  Items for Next-state State 91
+    10 type: type_name '?' .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+
+Shift/Reduce conflict on symbol "'.'", parser will shift
+ Reduce 4:	type_name -> namespace_or_type_name
+ Shift "'.'":	State-93 -> State-94
+  Items for From-state State 93
+    4 type_name: namespace_or_type_name .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', WHERE, QM_QM, '(', IS, THIS, '?', 
+                AS, ')', ',', AMP_AMP, IDENTIFIER, BAR_BAR, '>', '.', LE, '{', 
+                GE, ']', '}', '&', '^', '|', OBJECT, '<'
+    8 namespace_or_type_name: namespace_or_type_name . '.' IDENTIFIER type_argument_listopt 
+  Items for Next-state State 94
+    8 namespace_or_type_name: namespace_or_type_name '.' . IDENTIFIER type_argument_listopt 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-95 -> State-84
+  Items for From-state State 95
+    8 namespace_or_type_name: namespace_or_type_name '.' IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 6:	namespace_or_type_name -> IDENTIFIER
+ Shift "'<'":	State-97 -> State-84
+  Items for From-state State 97
+    5 namespace_or_type_name: IDENTIFIER . type_argument_list 
+    6 namespace_or_type_name: IDENTIFIER .
+	-lookahead: ':', EQ_EQ, NE, ';', WHERE, QM_QM, '(', IS, THIS, '?', AS, ')', 
+                ',', AMP_AMP, IDENTIFIER, BAR_BAR, '>', '.', LE, '{', GE, ']', 
+                '}', '&', '^', '|', OBJECT, '<'
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-100 -> State-84
+  Items for From-state State 100
+    285 qualified_alias_member: IDENTIFIER SEMI_SEMI IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'?'", parser will shift
+ Reduce 11:	type -> simple_type
+ Shift "'?'":	State-103 -> State-104
+  Items for From-state State 103
+    11 type: simple_type .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+    12 type: simple_type . '?' 
+    15 struct_type: simple_type .
+	-lookahead: '['
+    35 non_nullable_value_type: simple_type .
+	-lookahead: '?'
+  Items for Next-state State 104
+    12 type: simple_type '?' .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+
+Shift/Reduce conflict on symbol "'?'", parser will shift
+ Reduce 35:	non_nullable_value_type -> simple_type
+ Shift "'?'":	State-103 -> State-104
+  Items for From-state State 103
+    11 type: simple_type .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+    12 type: simple_type . '?' 
+    15 struct_type: simple_type .
+	-lookahead: '['
+    35 non_nullable_value_type: simple_type .
+	-lookahead: '?'
+  Items for Next-state State 104
+    12 type: simple_type '?' .
+	-lookahead: ':', OPERATOR, EQ_EQ, NE, ';', QM_QM, '(', IS, THIS, AS, ')', 
+                '?', AMP_AMP, ',', IDENTIFIER, BAR_BAR, '>', LE, GE, '}', ']', 
+                '&', '^', '|', '<'
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-216 -> State-84
+  Items for From-state State 216
+    64 simple_name: IDENTIFIER . type_argument_listopt 
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-228 -> State-84
+  Items for From-state State 228
+    67 member_access: predefined_type '.' IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-239 -> State-84
+  Items for From-state State 239
+    68 member_access: qualified_alias_member '.' IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-248 -> State-84
+  Items for From-state State 248
+    81 base_access: BASE '.' IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Reduce/Reduce conflict in state 306 on symbol "'.'", parser will reduce production 6
+ Reduce 6:	namespace_or_type_name -> IDENTIFIER
+ Reduce 616:	type_argument_listopt -> /* empty */
+
+Shift/Reduce conflict on symbol "'.'", parser will shift
+ Reduce 7:	namespace_or_type_name -> qualified_alias_member
+ Shift "'.'":	State-338 -> State-238
+  Items for From-state State 338
+    7 namespace_or_type_name: qualified_alias_member .
+	-lookahead: IDENTIFIER, OBJECT, '?', '.', ')'
+    68 member_access: qualified_alias_member . '.' IDENTIFIER type_argument_listopt 
+  Items for Next-state State 238
+    68 member_access: qualified_alias_member '.' . IDENTIFIER type_argument_listopt 
+
+Shift/Reduce conflict on symbol "ELSE", parser will shift
+ Reduce 209:	if_statement -> IF, '(', boolean_expression, ')', embedded_statement
+ Shift "ELSE":	State-392 -> State-393
+  Items for From-state State 392
+    209 if_statement: IF '(' boolean_expression ')' embedded_statement .
+	-lookahead: MINUS_MINUS, INT, UINT, CONST, TYPEOF, '{', DECIMAL, UNCHECKED, 
+                LONG, FLOAT, USING, DELEGATE, STRING, BOOL, NULL, FOREACH, 
+                SINGLE_CHARACTER, DOUBLE, SWITCH, BYTE, REGULAR_STRING_LITERAL, 
+                IDENTIFIER, IF, DECIMAL_DIGITS, WHILE, '!', THROW, RETURN, 
+                DECIMAL_DIGITS_WITH_SUFFIX, PLUS_PLUS, '~', TRY, 
+                HEXADECIMAL_ESCAPE_SEQUENCE, '+', FALSE, ULONG, CONTINUE, '(', 
+                USHORT, DEFAULT, BASE, NEW, DO, BREAK, CHECKED, LOCK, '}', 
+                THIS, CASE, SIMPLE_ESCAPE_SEQUENCE, FOR, TRUE, CHAR, SBYTE, 
+                HEX_DIGITS, OBJECT, ';', HEX_DIGITS_WITH_SUFFIX, GOTO, ELSE, 
+                SHORT, '-', YIELD
+    210 if_statement: IF '(' boolean_expression ')' embedded_statement . ELSE embedded_statement 
+  Items for Next-state State 393
+    210 if_statement: IF '(' boolean_expression ')' embedded_statement ELSE . embedded_statement 
+
+Shift/Reduce conflict on symbol "DEFAULT", parser will shift
+ Reduce 215:	switch_section -> switch_labels, statement_list
+ Shift "DEFAULT":	State-407 -> State-292
+  Items for From-state State 407
+    215 switch_section: switch_labels statement_list .
+	-lookahead: '}', DEFAULT, CASE
+    183 statement_list: statement_list . statement 
+  Items for Next-state State 292
+    99 default_value_expression: DEFAULT . '(' type ')' 
+
+Shift/Reduce conflict on symbol "CATCH", parser will shift
+ Reduce 650:	specific_catch_clausesopt -> /* empty */
+ Shift "CATCH":	State-470 -> State-478
+  Items for From-state State 470
+    246 try_statement: TRY block . catch_clauses 
+    247 try_statement: TRY block . catch_clausesopt finally_clause 
+  Items for Next-state State 478
+    252 specific_catch_clause: CATCH . '(' class_type identifieropt ')' block 
+
+Shift/Reduce conflict on symbol "CATCH", parser will shift
+ Reduce 651:	specific_catch_clausesopt -> specific_catch_clauses
+ Shift "CATCH":	State-476 -> State-478
+  Items for From-state State 476
+    248 catch_clauses: specific_catch_clauses .
+	-lookahead: MINUS_MINUS, INT, UINT, CONST, TYPEOF, FINALLY, '{', DECIMAL, 
+                UNCHECKED, LONG, FLOAT, USING, DELEGATE, STRING, BOOL, NULL, 
+                SINGLE_CHARACTER, FOREACH, DOUBLE, SWITCH, BYTE, 
+                REGULAR_STRING_LITERAL, IDENTIFIER, DECIMAL_DIGITS, IF, WHILE, 
+                '!', THROW, RETURN, DECIMAL_DIGITS_WITH_SUFFIX, PLUS_PLUS, '~', 
+                TRY, HEXADECIMAL_ESCAPE_SEQUENCE, '+', FALSE, ULONG, CONTINUE, 
+                '(', USHORT, DEFAULT, BASE, NEW, DO, BREAK, CHECKED, LOCK, '}', 
+                THIS, CASE, SIMPLE_ESCAPE_SEQUENCE, FOR, TRUE, CHAR, SBYTE, 
+                HEX_DIGITS, OBJECT, ';', HEX_DIGITS_WITH_SUFFIX, GOTO, ELSE, 
+                SHORT, '-', YIELD
+    251 specific_catch_clauses: specific_catch_clauses . specific_catch_clause 
+    651 specific_catch_clausesopt: specific_catch_clauses .
+	-lookahead: CATCH
+  Items for Next-state State 478
+    252 specific_catch_clause: CATCH . '(' class_type identifieropt ')' block 
+
+Reduce/Reduce conflict in state 513 on symbol "')'", parser will reduce production 6
+ Reduce 6:	namespace_or_type_name -> IDENTIFIER
+ Reduce 616:	type_argument_listopt -> /* empty */
+
+Reduce/Reduce conflict in state 513 on symbol "'?'", parser will reduce production 6
+ Reduce 6:	namespace_or_type_name -> IDENTIFIER
+ Reduce 616:	type_argument_listopt -> /* empty */
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-513 -> State-84
+  Items for From-state State 513
+    5 namespace_or_type_name: IDENTIFIER . type_argument_list 
+    6 namespace_or_type_name: IDENTIFIER .
+	-lookahead: IDENTIFIER, OBJECT, '?', '.', ')'
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+    64 simple_name: IDENTIFIER . type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Reduce/Reduce conflict in state 513 on symbol "'.'", parser will reduce production 6
+ Reduce 6:	namespace_or_type_name -> IDENTIFIER
+ Reduce 616:	type_argument_listopt -> /* empty */
+
+Reduce/Reduce conflict in state 514 on symbol "')'", parser will reduce production 5
+ Reduce 5:	namespace_or_type_name -> IDENTIFIER, type_argument_list
+ Reduce 617:	type_argument_listopt -> type_argument_list
+
+Reduce/Reduce conflict in state 514 on symbol "'?'", parser will reduce production 5
+ Reduce 5:	namespace_or_type_name -> IDENTIFIER, type_argument_list
+ Reduce 617:	type_argument_listopt -> type_argument_list
+
+Reduce/Reduce conflict in state 514 on symbol "'.'", parser will reduce production 5
+ Reduce 5:	namespace_or_type_name -> IDENTIFIER, type_argument_list
+ Reduce 617:	type_argument_listopt -> type_argument_list
+
+Shift/Reduce conflict on symbol "'['", parser will shift
+ Reduce 469:	attributes -> attribute_sections
+ Shift "'['":	State-633 -> State-635
+  Items for From-state State 633
+    469 attributes: attribute_sections .
+	-lookahead: PARAMS, INT, PARTIAL, EXTERN, UINT, CONST, PROTECTED, INTERNAL, 
+                REMOVE, DECIMAL, LONG, SET, FLOAT, DELEGATE, STRING, BOOL, '[', 
+                VOID, DOUBLE, BYTE, IDENTIFIER, ENUM, EXPLICIT, '~', CLASS, 
+                SEALED, ADD, ULONG, EOF, OVERRIDE, USHORT, STATIC, PRIVATE, 
+                NEW, INTERFACE, VIRTUAL, STRUCT, PUBLIC, GET, REF, NAMESPACE, 
+                CHAR, SBYTE, SHORT, OUT, IMPLICIT, EVENT, ABSTRACT
+    471 attribute_sections: attribute_sections . attribute_section 
+  Items for Next-state State 635
+    472 attribute_section: '[' . attribute_target_specifier attribute_list ']' 
+    473 attribute_section: '[' . attribute_list ']' 
+    474 attribute_section: '[' . attribute_target_specifier attribute_list ',' ']' 
+    475 attribute_section: '[' . attribute_list ',' ']' 
+
+Shift/Reduce conflict on symbol "'='", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'='":	State-660 -> State-655
+  Items for From-state State 660
+    491 named_argument: IDENTIFIER . '=' attribute_argument_expression 
+    64 simple_name: IDENTIFIER . type_argument_listopt 
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 655
+    491 named_argument: IDENTIFIER '=' . attribute_argument_expression 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 616:	type_argument_listopt -> /* empty */
+ Shift "'<'":	State-660 -> State-84
+  Items for From-state State 660
+    491 named_argument: IDENTIFIER . '=' attribute_argument_expression 
+    64 simple_name: IDENTIFIER . type_argument_listopt 
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Reduce/Reduce conflict in state 816 on symbol "'('", parser will reduce production 373
+ Reduce 373:	overloadable_unary_operator -> '+'
+ Reduce 382:	overloadable_binary_operator -> '+'
+
+Reduce/Reduce conflict in state 817 on symbol "'('", parser will reduce production 374
+ Reduce 374:	overloadable_unary_operator -> '-'
+ Reduce 383:	overloadable_binary_operator -> '-'
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 334:	member_name -> IDENTIFIER
+ Shift "'<'":	State-839 -> State-84
+  Items for From-state State 839
+    327 variable_declarator: IDENTIFIER .
+	-lookahead: ';', ','
+    328 variable_declarator: IDENTIFIER . '=' variable_initializer 
+    334 member_name: IDENTIFIER .
+	-lookahead: '(', '<', '{'
+    5 namespace_or_type_name: IDENTIFIER . type_argument_list 
+    6 namespace_or_type_name: IDENTIFIER .
+	-lookahead: '.'
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "'<'", parser will shift
+ Reduce 334:	member_name -> IDENTIFIER
+ Shift "'<'":	State-847 -> State-84
+  Items for From-state State 847
+    334 member_name: IDENTIFIER .
+	-lookahead: '(', '<'
+    5 namespace_or_type_name: IDENTIFIER . type_argument_list 
+    6 namespace_or_type_name: IDENTIFIER .
+	-lookahead: '.'
+    285 qualified_alias_member: IDENTIFIER . SEMI_SEMI IDENTIFIER type_argument_listopt 
+  Items for Next-state State 84
+    496 type_argument_list: '<' . type_arguments '>' 
+
+Shift/Reduce conflict on symbol "')'", parser will shift
+ Reduce 664:	formal_parameter_listopt -> /* empty */
+ Shift "')'":	State-889 -> State-890
+  Items for From-state State 889
+    408 static_constructor_declaration: attributesopt modifiers_opt IDENTIFIER '(' . ')' static_constructor_body 
+    403 constructor_declarator: IDENTIFIER '(' . formal_parameter_listopt ')' constructor_initializeropt 
+  Items for Next-state State 890
+    408 static_constructor_declaration: attributesopt modifiers_opt IDENTIFIER '(' ')' . static_constructor_body 
+
+Shift/Reduce conflict on symbol "EXTERN", parser will shift
+ Reduce 611:	extern_alias_directivesopt -> extern_alias_directives
+ Shift "EXTERN":	State-1104 -> State-1106
+  Items for From-state State 1104
+    611 extern_alias_directivesopt: extern_alias_directives .
+	-lookahead: STATIC, PROTECTED, DELEGATE, PUBLIC, EXTERN, VIRTUAL, NAMESPACE, 
+                NEW, ABSTRACT, PRIVATE, ENUM, INTERNAL, SEALED, CLASS, USING, 
+                STRUCT, '[', OVERRIDE, '}', EOF, PARTIAL, INTERFACE
+    268 extern_alias_directives: extern_alias_directives . extern_alias_directive 
+  Items for Next-state State 1106
+    269 extern_alias_directive: EXTERN . ALIAS IDENTIFIER ';' 
+
+// End conflict information for parser
