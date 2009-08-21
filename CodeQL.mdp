@@ -3,7 +3,7 @@
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL" />
       <Build debugmode="True" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution runwithwarnings="True" commandlineparameters="--print --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <EnvironmentVariables />
       <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG TRACE_ACTIONS" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
@@ -22,9 +22,22 @@
     <File name="cs2.y" subtype="Code" buildaction="Nothing" />
     <File name="../../../parser/gppg-distro-1.3.5/project/ShiftReduceParser/ShiftReduceParserCode.cs" subtype="Code" buildaction="Compile" />
     <File name="cs.lex" subtype="Code" buildaction="Nothing" />
+    <File name="Db.cs" subtype="Code" buildaction="Compile" />
+    <File name="CodeWalker.cs" subtype="Code" buildaction="Compile" />
+    <File name="doc/db.txt" subtype="Code" buildaction="Nothing" />
+    <File name="doc/features.txt" subtype="Code" buildaction="Nothing" />
+    <File name="doc/lang.txt" subtype="Code" buildaction="Nothing" />
+    <File name="doc/todo.txt" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/System.Data.SQLite.dll" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/FirebirdSql.Data.FirebirdClient.dll" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/NDesk.Options.dll" />
+    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/Mono.Cecil.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
   <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile" BuildTargetName="build">
     <BuildFilesVar />

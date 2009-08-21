@@ -1,0 +1,29 @@
+open '~/my program.exe' where namespace like 'my.namespace.%'
+
+---
+--- Some useful statistics
+---
+select count(*) as public_classes
+from class c
+where c is public
+
+select count(*) as public_members
+from member m
+where m is public
+
+---
+--- natural join
+--- group by (and count) table, not table column
+---
+select a.name, count(c)
+from assembly a
+natural join class c
+group by a
+
+---
+--- named relation "belongs to" "used in"
+---
+select c.name as class_name, u.name as used_in
+from class c
+join member m on m belongs to c
+join class u on u used in m

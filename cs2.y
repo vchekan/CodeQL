@@ -61,10 +61,9 @@ type_name:
 	;
 
 namespace_or_type_name:
-	IDENTIFIER type_argument_list
-	|IDENTIFIER
+	simple_name /*IDENTIFIER type_argument_listopt*/
 	|qualified_alias_member
-	|namespace_or_type_name '.' IDENTIFIER type_argument_listopt
+	|namespace_or_type_name '.' simple_name /*IDENTIFIER type_argument_listopt*/
 ;
 // A.2.2 Types
 type:

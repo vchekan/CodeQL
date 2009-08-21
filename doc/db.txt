@@ -1,0 +1,41 @@
+project
+    id -- not in the xobject
+    name
+
+projectFiles	--- list of files related to given project
+    projectId
+    versionId	---projects are versioned
+    path
+    
+projectVersion
+    id
+    name	---projects versions can be named (optional)
+
+xobject
+    id
+    type
+    name
+    parentId
+
+assembly
+    id
+    projectId
+    fileName
+    
+type
+    id
+    fullName
+    
+member
+    id
+    memberType
+    modifiers
+    
+field
+    id
+    
+property
+    id
+    
+attribute
+    classId
