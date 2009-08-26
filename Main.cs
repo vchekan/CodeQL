@@ -1,6 +1,21 @@
-// Main.cs created with MonoDevelop
-// Author: Vadim Chekan at 10:31 PM 11/30/2008
-//
+// 
+//  Copyright (C) 2009 Vadim Chekan
+// 
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2 of the License, or
+//  (at your option) any later version.
+// 
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//  GNU General Public License for more details.
+//  
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+// 
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,16 +26,18 @@ namespace CodeQL
 {
 	class MainClass
 	{
-		delegate void VoidFunction();
+		delegate void VoidDelegate();
 		static CodeWalker _walker = new CodeWalker();
-		static VoidFunction _action = null;
+		static VoidDelegate _action = null;
 
 		public static void Main(string[] args)
 		{
 			new NDesk.Options.OptionSet().
+				//Add("help|h|?", o => {_action = WriteOptionDecription; }).
 				Add("file=", o => { _walker.AddFile(o); }).
-				Add("dump:", o => { _action = Dump; }).
-				Add("print:", o => { _action = Print; }).
+				Add("print", o => { _action = Print; }).
+				Add("console", o => { _action = new CodeConsole().Run; }).
+				Add("scan", o => { _action = new BinScanner(_walker).Scan; }).
 				Parse(args);
 			
 			if(_action == null)
@@ -54,35 +71,6 @@ namespace CodeQL
 		 */
 		
 			
-/*
-			Console.WriteLine("Starting");
-			Scanner scanner = new Scanner(File.Open("/home/vadim/Projects/CodeQL/tools/parser.cs", FileMode.Open));
-			//Scanner scanner = new Scanner(File.Open("/home/vadim/Projects/CodeQL/src/CodeQL/test1.cs", FileMode.Open));
-			Parser parser = new Parser(scanner);
-			//parser.Trace=true;
-			//parser.scanner.Trace=true;
-			parser.Parse();
-			Console.WriteLine("Parsed");
-*/			
-			
-		static void Dump() {
-			if(_walker.Files.Count != 1)
-				throw new ApplicationException("Dump expects one assembly but got "+_walker.Files.Count);
-			string fileName = _walker.Files[0];
-			
-			TextWriter dumpStream = fileName != null ? File.CreateText(fileName) : Console.Out;
-			using(var conn = Db.GetConnection()) {
-				conn.Open();
-				IDbCommand cmd = conn.CreateCommand();
-				cmd.CommandText = "select fullName from type";
-				using(IDataReader reader = cmd.ExecuteReader()) {
-					while(reader.Read()) {
-						dumpStream.WriteLine(reader[0]);
-					}
-				}
-			}
-		}
-		
 		static void Scan() {
 			using(var db = new Db()) {
 				db.Create();

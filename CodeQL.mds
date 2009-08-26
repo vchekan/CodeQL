@@ -1,4 +1,7 @@
-<Combine name="CodeQL" fileversion="2.0">
+<Combine fileversion="2.0" name="CodeQL">
+  <Policies>
+    <StandardHeader inheritsSet="GPLv2License" />
+  </Policies>
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="CodeQL" configuration="Debug" />

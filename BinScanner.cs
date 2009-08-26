@@ -16,19 +16,33 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 
-using System.Reflection;
-using System.Runtime.CompilerServices;
+using System;
+using Mono.Cecil;
 
-// Information about this assembly is defined by the following attributes. 
-// Change them to the values specific to your project.
-
-[assembly: AssemblyTitle("CodeQL")]
-[assembly: AssemblyDescription("CodeQL library")]
-[assembly: AssemblyCompany("Vadim Chekan")]
-[assembly: AssemblyProduct("CodeQL")]
-[assembly: AssemblyCopyright("Vadim Chekan")]
-
-// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
-// If the build and revision are set to '*' they will be updated automatically.
-
-[assembly: AssemblyVersion("0.1.0.0")]
+namespace CodeQL
+{
+	
+	
+	public class BinScanner
+	{
+		private CodeWalker _walker;
+		
+		public BinScanner(CodeWalker walker)
+		{
+			_walker = walker;
+		}
+		
+		public void Scan() {
+			using(var db = new Db()) {
+				db.Create(); // TODO: how to re-create automatically?
+				// TODO: get max object ID
+				int asm = 0;
+				int type = 0;
+				_walker.Walk(
+				    a => {db.InsertAssembly(a, "file.dll", 1);},
+					t => {}
+				);
+			}
+		}
+	}
+}

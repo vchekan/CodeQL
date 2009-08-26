@@ -3,7 +3,7 @@
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL" />
       <Build debugmode="True" target="Exe" />
-      <Execution runwithwarnings="True" commandlineparameters="--print --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution runwithwarnings="True" commandlineparameters="--scan --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <EnvironmentVariables />
       <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG TRACE_ACTIONS" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
@@ -28,6 +28,11 @@
     <File name="doc/features.txt" subtype="Code" buildaction="Nothing" />
     <File name="doc/lang.txt" subtype="Code" buildaction="Nothing" />
     <File name="doc/todo.txt" subtype="Code" buildaction="Nothing" />
+    <File name="CodeConsole.cs" subtype="Code" buildaction="Compile" />
+    <File name="parsers" subtype="Directory" buildaction="Compile" />
+    <File name="parsers/cs" subtype="Directory" buildaction="Compile" />
+    <File name="parsers/mssql2005" subtype="Directory" buildaction="Compile" />
+    <File name="BinScanner.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
