@@ -48,18 +48,26 @@ namespace CodeQL
 		}
 		
 		
-		public void Walk(Action<AssemblyDefinition> onAssembly,
-		                 Action<TypeDefinition> onType) {
+		public void Walk(Action<string,
+		                 AssemblyDefinition> onAssembly,
+		                 Action<TypeDefinition> onType,
+		                 Action<CustomAttribute> onAttribute) {
 			foreach(string fileName in Files)	{
+				// Assembly
 				AssemblyDefinition asm = AssemblyFactory.GetAssembly(fileName);
 				if(onAssembly != null)
-					onAssembly(asm);
+					onAssembly(fileName, asm);
+				// Type
 				foreach(TypeDefinition type in asm.MainModule.Types) {
 					if(type.Name[0] == '<') // skip <Module>
 						continue;
 					if(onType != null)
 						onType(type);
-					//type.
+					// Attribute
+					foreach(CustomAttribute attribute in type.CustomAttributes) {
+						if(onAttribute != null)
+							onAttribute(attribute);
+					}
 				}
 			}
 		}

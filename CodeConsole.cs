@@ -36,7 +36,7 @@ namespace CodeQL
 			string statement = "";
 			Console.Write(">");
 			while((line = Console.ReadLine()) != "quit") {
-				statement += line;
+				statement += line + '\n';
 				if(!line.Trim().EndsWith(";"))
 					continue;
 					

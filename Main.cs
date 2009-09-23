@@ -30,7 +30,7 @@ namespace CodeQL
 		static CodeWalker _walker = new CodeWalker();
 		static VoidDelegate _action = null;
 
-		public static void Main(string[] args)
+		public static int Main(string[] args)
 		{
 			new NDesk.Options.OptionSet().
 				//Add("help|h|?", o => {_action = WriteOptionDecription; }).
@@ -40,17 +40,21 @@ namespace CodeQL
 				Add("scan", o => { _action = new BinScanner(_walker).Scan; }).
 				Parse(args);
 			
-			if(_action == null)
-				throw new ApplicationException("No action defined");
+			if(_action == null) {
+				Console.Error.WriteLine("No action defined");
+				return 1;
+			}
 			
 			_action();
 			
 			Console.WriteLine("Done");
+			return 0;
 		}
 		
 		static void Print() {
-			_walker.Walk(asm => { Console.WriteLine(asm.Name.Name);},
-			             type => {Console.WriteLine("  {0}",type.Name);});
+			_walker.Walk((file,asm) => { Console.WriteLine("{0}:{1}", file, asm.Name.Name);},
+			        type => {Console.WriteLine("  {0}",type.Name);},
+					att=>{Console.WriteLine("	{0}", att);});
 		}
 
 		/*
@@ -69,18 +73,5 @@ namespace CodeQL
 		 * 		Select empty catches
 		 * 		Select count/(grouped by) of compiler generated classes/members/functions, etc.
 		 */
-		
-			
-		static void Scan() {
-			using(var db = new Db()) {
-				db.Create();
-				
-				string fileName = "CodeQL.exe";
-				AssemblyDefinition asm = AssemblyFactory.GetAssembly(fileName);
-				foreach(TypeDefinition type in asm.MainModule.Types) {
-					db.InsertType(type.FullName);
-				}
-			}
-		}
 	}
 }

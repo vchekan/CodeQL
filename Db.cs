@@ -28,6 +28,13 @@ namespace CodeQL
 		const string CONN_STRING = "Data Source=codeql.db3;FailIfMissing=false";
 		SQLiteConnection _conn = new SQLiteConnection(CONN_STRING);
 		
+		static Db() {
+			using(var conn = new SQLiteConnection(CONN_STRING)) {
+				conn.Open();
+				Create(conn);
+			}
+		}
+		
 		public Db() {
 			_conn.Open();	
 		}
@@ -47,36 +54,62 @@ namespace CodeQL
 			}
 		}
 		
-		public void Create() {
-				var cmd = _conn.CreateCommand();
+		private static void Create(SQLiteConnection conn) {
+				var cmd = conn.CreateCommand();
 				#region sql
 				cmd.CommandText = @"
-create table if not exists project(id int, name text);
+create table if not exists project(id integer primary key, name text);
 create table if not exists projectFiles(projectId int, versionId int, path text);
 create table if not exists projectVersion(id int, name text);
 create table if not exists xobject(id integer primary key autoincrement, type int, name text, parentId int);
-create table if not exists assembly(id int, fileName text);
-create table if not exists type(id int, fullName text);";
+create table if not exists assembly(id integer primary key, fileName text);
+create table if not exists type(id integer primary key, namespace text);
+create table if not exists xtree(objectId integer, parentId integer, level int); 
+	create index if not exists i_xtree1 on xtree(objectId, parentId);
+	create index if not exists i_xtree2 on xtree(parentId);";
 				#endregion
 				cmd.ExecuteNonQuery();
 		}
 		
-		public long InsertType(string fullName) {
+		public long InsertType(TypeDefinition type, long asmId) {
 			var cmd = _conn.CreateCommand();
-			cmd.CommandText = "insert into type(fullName) values(@n); select last_insert_rowid()";
-			cmd.Parameters.AddWithValue("@n", fullName);
+			cmd.CommandText = @"insert into xobject(type,name,parentId) values(4,@name,@parentId);
+insert into type(namespace) values(@namespace); select last_insert_rowid();
+insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
+insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
+select last_insert_rowid();";
+			cmd.Parameters.AddWithValue("@name", type.Name);
+			cmd.Parameters.AddWithValue("@namespace", type.Namespace);
+			cmd.Parameters.AddWithValue("@parentId", asmId);
 			return (long)cmd.ExecuteScalar();
 		}
 
 		public long InsertAssembly(AssemblyDefinition asm, string fileName, long parentId) {
 			using(var tx = _conn.BeginTransaction()) {
 				var cmd = _conn.CreateCommand();
-				cmd.CommandText = @"insert into xobject(type,name,parentId) values('as',@name,@parentId); 
+				cmd.CommandText = @"insert into xobject(type,name,parentId) values(3,@name,@parentId);
 insert into assembly(id, fileName) values(last_insert_rowid(), @fileName);
-select last_insert_rowid()";
-				cmd.Parameters.AddWithValue("@name", asm.Name);
+insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
+insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
+select last_insert_rowid();";
+				cmd.Parameters.AddWithValue("@name", asm.Name.Name);
 				cmd.Parameters.AddWithValue("@parentId", parentId);
 				cmd.Parameters.AddWithValue("@fileName", fileName);
+				long id = (long)cmd.ExecuteScalar();
+				tx.Commit();
+				return id;
+			}
+		}
+		
+		public long InsertAttribute(CustomAttribute att, long typeId) {
+			using(var tx = _conn.BeginTransaction()) {
+				var cmd = _conn.CreateCommand();
+				cmd.CommandText = @"insert into xobject(type,name,parentId) values(8,@name,@parentId);
+insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
+insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
+select last_insert_rowid();";
+				cmd.Parameters.AddWithValue("@name", att.Constructor.DeclaringType.Name);
+				cmd.Parameters.AddWithValue("@parentId", typeId);
 				long id = (long)cmd.ExecuteScalar();
 				tx.Commit();
 				return id;

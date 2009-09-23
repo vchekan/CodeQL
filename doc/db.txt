@@ -13,7 +13,7 @@ projectVersion
 
 xobject
     id
-    type -- s:solution; p:project; as:assembly; c:class; f:field; mt:method; mb:member; at: attribute
+    type -- 1:solution; 2:project; 3:assembly; 4:type; 5:field; 6:method; 7:member; 8:attribute
     name
     parentId
 

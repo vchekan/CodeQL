@@ -21,8 +21,6 @@ using Mono.Cecil;
 
 namespace CodeQL
 {
-	
-	
 	public class BinScanner
 	{
 		private CodeWalker _walker;
@@ -34,13 +32,14 @@ namespace CodeQL
 		
 		public void Scan() {
 			using(var db = new Db()) {
-				db.Create(); // TODO: how to re-create automatically?
-				// TODO: get max object ID
-				int asm = 0;
-				int type = 0;
+				long asmId = 0,
+					typeId = 0,
+					attId = 0;
+				
 				_walker.Walk(
-				    a => {db.InsertAssembly(a, "file.dll", 1);},
-					t => {}
+				    (file, asm) => {asmId=db.InsertAssembly(asm, file, 1);},
+					(type) => {typeId=db.InsertType(type, asmId);},
+					(att) => {attId = db.InsertAttribute(att, typeId);}
 				);
 			}
 		}
