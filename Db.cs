@@ -115,7 +115,38 @@ select last_insert_rowid();";
 				return id;
 			}
 		}
+		
+		public long InsertConstructor(MethodDefinition ctor, long typeId) {
+			return InsertInternal(ctor.DeclaringType.Name, typeId, 9);
+		}
+		
+		public long InsertEvent(EventDefinition evt, long typeId) {
+			return InsertInternal(evt.Name, typeId, 10);
+		}
 
+		public long InsertField(FieldDefinition field, long typeId) {
+			return InsertInternal(field.Name, typeId, 11);
+		}
+
+
+
+		public long InsertInternal(string name, long parentId, int type) {
+			using(var tx = _conn.BeginTransaction()) {
+				var cmd = _conn.CreateCommand();
+				cmd.CommandText = @"insert into xobject(type,name,parentId) values(@type,@name,@parentId);
+insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
+insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
+select last_insert_rowid();";
+				cmd.Parameters.AddWithValue("@name", name);
+				cmd.Parameters.AddWithValue("@parentId", parentId);
+				cmd.Parameters.AddWithValue("@type", type);
+				long id = (long)cmd.ExecuteScalar();
+				tx.Commit();
+				return id;
+			}
+		}
+
+		
 		void IDisposable.Dispose() {
 			if(_conn != null) {
 				_conn.Dispose();

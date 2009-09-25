@@ -48,10 +48,17 @@ namespace CodeQL
 		}
 		
 		
-		public void Walk(Action<string,
-		                 AssemblyDefinition> onAssembly,
+		public void Walk(Action<string,AssemblyDefinition> onAssembly,
 		                 Action<TypeDefinition> onType,
-		                 Action<CustomAttribute> onAttribute) {
+		                 Action<CustomAttribute> onAttribute,
+		                 Action<MethodDefinition> onConstructor,
+		                 Action<EventDefinition> onEvent,
+		                 Action<FieldDefinition> onField,
+		                 Action<GenericParameter> onGenericParam,
+		                 Action<TypeReference> onInterface,
+		                 Action<MethodDefinition> onMethod,
+		                 Action<TypeDefinition> onNestedType,
+		                 Action<PropertyDefinition> onProperty) {
 			foreach(string fileName in Files)	{
 				// Assembly
 				AssemblyDefinition asm = AssemblyFactory.GetAssembly(fileName);
@@ -63,11 +70,54 @@ namespace CodeQL
 						continue;
 					if(onType != null)
 						onType(type);
+					
 					// Attribute
 					foreach(CustomAttribute attribute in type.CustomAttributes) {
 						if(onAttribute != null)
 							onAttribute(attribute);
 					}
+					
+					// ctor
+					if(onConstructor != null)
+						foreach(MethodDefinition ctor in type.Constructors)
+							onConstructor(ctor);
+					
+					// event
+					if(onEvent != null)
+						foreach(EventDefinition evt in type.Events)
+							onEvent(evt);
+					
+					
+					// Field
+					if(onField != null)
+						foreach(FieldDefinition field in type.Fields)
+							onField(field);
+					
+					
+					// generic params
+					if(onGenericParam != null)
+						foreach(GenericParameter generic in type.GenericParameters)
+							onGenericParam(generic);
+					
+					// Interfaces
+					if(onInterface != null)
+						foreach(TypeReference interfs in type.Interfaces)
+							onInterface(interfs);
+					
+					// Methods
+					if(onMethod != null)
+						foreach(MethodDefinition method in type.Methods)
+							onMethod(method);
+					
+					// nested type
+					if(onNestedType != null)
+						foreach(TypeDefinition t in type.NestedTypes)
+							onNestedType(t);
+					
+					// property
+					if(onProperty != null)
+						foreach(PropertyDefinition prop in type.Properties)
+							onProperty(prop);
 				}
 			}
 		}
