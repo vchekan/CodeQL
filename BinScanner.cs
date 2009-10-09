@@ -32,7 +32,8 @@ namespace CodeQL
 		
 		public void Scan() {
 			using(var db = new Db()) {
-				long asmId=0, typeId=0, attId=0, ctorId=0, evtId=0, fieldId=0;
+				long asmId=0, typeId=0, attId=0, ctorId=0, evtId=0, fieldId=0,
+					genericId=0, ifaceId=0, methodId=0, propId=0;
 				
 				_walker.Walk(
 				    (file, asm) => asmId=db.InsertAssembly(asm, file, 1),
@@ -40,12 +41,12 @@ namespace CodeQL
 					att => attId = db.InsertAttribute(att, typeId),
 				    ctor => ctorId = db.InsertConstructor(ctor, typeId),
 				    evt => evtId = db.InsertEvent(evt, typeId),
-				    field => fieldId = db.InsertField(field, typeId),//field
-				    null,//generic param
-				    null,//iface
-				    null,//method
+				    field => fieldId = db.InsertField(field, typeId),
+				    generic => genericId = db.InsertGenericParam(generic, typeId),
+				    iface => ifaceId = db.InsertInterface(iface, typeId),
+				    method => methodId = db.InsertMethod(method, typeId),
 				    null,//nested type
-				    null//prop
+				    prop => propId = db.InsertProperty(prop, typeId)
 				);
 			}
 		}

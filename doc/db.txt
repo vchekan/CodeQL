@@ -14,7 +14,7 @@ projectVersion
 xobject
     id
     type -- 1:solution; 2:project; 3:assembly; 4:type; 5:field; 6:method; 7:member; 8:attribute;
-    	9:ctor; event:10; field:11
+    	9:ctor; event:10; field:11; generic param:12 property:13; interface:14;
     name
     parentId
 

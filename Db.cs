@@ -128,7 +128,21 @@ select last_insert_rowid();";
 			return InsertInternal(field.Name, typeId, 11);
 		}
 
+		public long InsertGenericParam(GenericParameter generic, long typeId) {
+			return InsertInternal(generic.Name, typeId, 12);
+		}
 
+		public long InsertProperty(PropertyDefinition prop, long typeId) {
+			return InsertInternal(prop.Name, typeId, 13);
+		}
+
+		public long InsertInterface(TypeReference iface, long typeId) {
+			return InsertInternal(iface.Name, typeId, 14);
+		}
+
+		public long InsertMethod(MethodDefinition method, long typeId) {
+			return InsertInternal(method.Name, typeId, 6);
+		}
 
 		public long InsertInternal(string name, long parentId, int type) {
 			using(var tx = _conn.BeginTransaction()) {
