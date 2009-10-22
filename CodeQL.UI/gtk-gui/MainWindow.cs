@@ -24,13 +24,15 @@ public partial class MainWindow {
     
     private Gtk.Action LastProjectsAction;
     
+    private Gtk.Action ManageProjectsAction;
+    
     private Gtk.VBox vbox1;
     
     private Gtk.MenuBar menubar2;
     
     private Gtk.DrawingArea drawingarea1;
     
-    private Gtk.Statusbar statusbar1;
+    private Gtk.Statusbar statusbar;
     
     protected virtual void Build() {
         Stetic.Gui.Initialize(this);
@@ -40,7 +42,7 @@ public partial class MainWindow {
         this.FileAction = new Gtk.Action("FileAction", Mono.Unix.Catalog.GetString("File"), null, null);
         this.FileAction.ShortLabel = Mono.Unix.Catalog.GetString("File");
         w1.Add(this.FileAction, null);
-        this.LoadAction = new Gtk.Action("LoadAction", Mono.Unix.Catalog.GetString("Load"), null, "gtk-open");
+        this.LoadAction = new Gtk.Action("LoadAction", Mono.Unix.Catalog.GetString("Load..."), null, "gtk-open");
         this.LoadAction.ShortLabel = Mono.Unix.Catalog.GetString("Load");
         w1.Add(this.LoadAction, null);
         this.SaveAction = new Gtk.Action("SaveAction", Mono.Unix.Catalog.GetString("Save"), null, "gtk-save");
@@ -52,6 +54,9 @@ public partial class MainWindow {
         this.LastProjectsAction = new Gtk.Action("LastProjectsAction", Mono.Unix.Catalog.GetString("Last projects"), null, null);
         this.LastProjectsAction.ShortLabel = Mono.Unix.Catalog.GetString("Last projects");
         w1.Add(this.LastProjectsAction, null);
+        this.ManageProjectsAction = new Gtk.Action("ManageProjectsAction", Mono.Unix.Catalog.GetString("Manage projects..."), null, null);
+        this.ManageProjectsAction.ShortLabel = Mono.Unix.Catalog.GetString("Manage projects...");
+        w1.Add(this.ManageProjectsAction, null);
         this.UIManager.InsertActionGroup(w1, 0);
         this.AddAccelGroup(this.UIManager.AccelGroup);
         this.Name = "MainWindow";
@@ -63,7 +68,7 @@ public partial class MainWindow {
         this.vbox1.Name = "vbox1";
         this.vbox1.Spacing = 6;
         // Container child vbox1.Gtk.Box+BoxChild
-        this.UIManager.AddUiFromString("<ui><menubar name='menubar2'><menu name='FileAction' action='FileAction'><menuitem name='LoadAction' action='LoadAction'/><menuitem name='SaveAction' action='SaveAction'/><menu name='LastProjectsAction' action='LastProjectsAction'/><separator/><menuitem name='ExitAction' action='ExitAction'/></menu></menubar></ui>");
+        this.UIManager.AddUiFromString("<ui><menubar name='menubar2'><menu name='FileAction' action='FileAction'><menuitem name='LoadAction' action='LoadAction'/><menuitem name='SaveAction' action='SaveAction'/><menu name='LastProjectsAction' action='LastProjectsAction'/><menuitem name='ManageProjectsAction' action='ManageProjectsAction'/><separator/><menuitem name='ExitAction' action='ExitAction'/></menu></menubar></ui>");
         this.menubar2 = ((Gtk.MenuBar)(this.UIManager.GetWidget("/menubar2")));
         this.menubar2.Name = "menubar2";
         this.vbox1.Add(this.menubar2);
@@ -78,11 +83,11 @@ public partial class MainWindow {
         Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.vbox1[this.drawingarea1]));
         w3.Position = 1;
         // Container child vbox1.Gtk.Box+BoxChild
-        this.statusbar1 = new Gtk.Statusbar();
-        this.statusbar1.Name = "statusbar1";
-        this.statusbar1.Spacing = 6;
-        this.vbox1.Add(this.statusbar1);
-        Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+        this.statusbar = new Gtk.Statusbar();
+        this.statusbar.Name = "statusbar";
+        this.statusbar.Spacing = 6;
+        this.vbox1.Add(this.statusbar);
+        Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar]));
         w4.PackType = ((Gtk.PackType)(1));
         w4.Position = 2;
         w4.Expand = false;
@@ -97,5 +102,6 @@ public partial class MainWindow {
         this.DeleteEvent += new Gtk.DeleteEventHandler(this.OnDeleteEvent);
         this.LoadAction.Activated += new System.EventHandler(this.OnLoadActionActivated);
         this.ExitAction.Activated += new System.EventHandler(this.OnExitActionActivated);
+        this.LastProjectsAction.Activated += new System.EventHandler(this.OnLastProjectsActionActivated);
     }
 }

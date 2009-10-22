@@ -2,20 +2,19 @@
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL" />
-      <Build debugmode="True" target="Exe" />
+      <Build debugmode="True" target="Library" />
       <Execution runwithwarnings="True" commandlineparameters="--scan --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <EnvironmentVariables />
       <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG TRACE_ACTIONS" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="CodeQL" />
-      <Build debugmode="False" target="Exe" />
+      <Build debugmode="False" target="Library" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
-    <File name="Main.cs" subtype="Code" buildaction="Compile" />
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="lexer.cs" subtype="Code" buildaction="Compile" />
     <File name="parser.cs" subtype="Code" buildaction="Compile" />
@@ -33,12 +32,12 @@
     <File name="parsers/cs" subtype="Directory" buildaction="Compile" />
     <File name="parsers/mssql2005" subtype="Directory" buildaction="Compile" />
     <File name="BinScanner.cs" subtype="Code" buildaction="Compile" />
+    <File name="Project.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/System.Data.SQLite.dll" />
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/FirebirdSql.Data.FirebirdClient.dll" />
-    <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/NDesk.Options.dll" />
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="lib/Mono.Cecil.dll" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

@@ -7,21 +7,29 @@
       <Entry build="True" name="CodeQL" configuration="Debug" />
       <Entry build="True" name="SQLDetector" configuration="Debug" />
       <Entry build="True" name="CodeQL.UI" configuration="Debug" />
+      <Entry build="True" name="Treemapping" configuration="Debug" />
+      <Entry build="True" name="CodeQL.Console" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="CodeQL" configuration="Release" />
       <Entry build="True" name="SQLDetector" configuration="Release" />
       <Entry build="True" name="CodeQL.UI" configuration="Release" />
+      <Entry build="True" name="Treemapping" configuration="Release" />
+      <Entry build="True" name="CodeQL.Console" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="CodeQL" single="True">
     <Execute type="None" entry="CodeQL" />
     <Execute type="None" entry="SQLDetector" />
     <Execute type="None" entry="CodeQL.UI" />
+    <Execute type="None" entry="Treemapping" />
+    <Execute type="None" entry="CodeQL.Console" />
   </StartMode>
   <Entries>
     <Entry filename="CodeQL.mdp" />
     <Entry filename="../../cesil/SQLDetector/SQLDetector.mdp" />
     <Entry filename="CodeQL.UI/CodeQL.UI.mdp" />
+    <Entry filename="Treemapping/Treemapping.mdp" />
+    <Entry filename="CodeQL.Console/CodeQL.Console.mdp" />
   </Entries>
 </Combine>

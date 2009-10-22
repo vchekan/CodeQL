@@ -2,4 +2,4 @@ Smart "open": will not re-scan assembly if db already contains up to date inform
 
 Show Tremap: http://en.wikipedia.org/wiki/Treemapping
 
-Can parse sln prj mds mdp files
++ Can parse sln prj mds mdp files

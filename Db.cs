@@ -19,6 +19,7 @@
 using System;
 using System.Data.SQLite;
 using System.Data;
+using System.Collections.Generic;
 using Mono.Cecil;
 
 namespace CodeQL
@@ -55,10 +56,10 @@ namespace CodeQL
 		}
 		
 		private static void Create(SQLiteConnection conn) {
-				var cmd = conn.CreateCommand();
-				#region sql
-				cmd.CommandText = @"
-create table if not exists project(id integer primary key, name text);
+			var cmd = conn.CreateCommand();
+			#region sql
+			cmd.CommandText = @"
+create table if not exists project(id integer primary key, filename text, title text, autoscan int, created int);
 create table if not exists projectFiles(projectId int, versionId int, path text);
 create table if not exists projectVersion(id int, name text);
 create table if not exists xobject(id integer primary key autoincrement, type int, name text, parentId int);
@@ -66,9 +67,14 @@ create table if not exists assembly(id integer primary key, fileName text);
 create table if not exists type(id integer primary key, namespace text);
 create table if not exists xtree(objectId integer, parentId integer, level int); 
 	create index if not exists i_xtree1 on xtree(objectId, parentId);
-	create index if not exists i_xtree2 on xtree(parentId);";
-				#endregion
+	create index if not exists i_xtree2 on xtree(parentId);
+select count(*) from project;";
+			#endregion
+			long count = (long)cmd.ExecuteScalar();
+			if(count == 0) {
+				cmd.CommandText = @"insert into project(filename, title, autoscan, created) values('', 'Workbench', 1, "+DateTime.UtcNow.Ticks+")";
 				cmd.ExecuteNonQuery();
+			}
 		}
 		
 		public long InsertType(TypeDefinition type, long asmId) {
@@ -143,7 +149,7 @@ select last_insert_rowid();";
 		public long InsertMethod(MethodDefinition method, long typeId) {
 			return InsertInternal(method.Name, typeId, 6);
 		}
-
+		
 		public long InsertInternal(string name, long parentId, int type) {
 			using(var tx = _conn.BeginTransaction()) {
 				var cmd = _conn.CreateCommand();
@@ -160,6 +166,17 @@ select last_insert_rowid();";
 			}
 		}
 
+		public IEnumerable<Project> ProjectsLoad() {
+			List<Project> res = new List<Project>();
+			ExecuteReader("select * from Project order by Created", null, reader => {
+				res.Add(new Project(){
+					FileName = (string)reader["filename"],
+					Title = (string)reader["title"],
+					Autoscan = ((int)reader["autoscan"]) != 0
+				});
+			});
+			return res;
+		}
 		
 		void IDisposable.Dispose() {
 			if(_conn != null) {

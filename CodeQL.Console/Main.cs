@@ -20,9 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Mono.Cecil;
-using System.Data;
+using CodeQL;
+using SysConsole=System.Console;
 
-namespace CodeQL
+namespace CodeQL.Console
 {
 	class MainClass
 	{
@@ -41,28 +42,28 @@ namespace CodeQL
 				Parse(args);
 			
 			if(_action == null) {
-				Console.Error.WriteLine("No action defined");
+				SysConsole.Error.WriteLine("No action defined");
 				return 1;
 			}
 			
 			_action();
 			
-			Console.WriteLine("Done");
+			SysConsole.WriteLine("Done");
 			return 0;
 		}
 		
 		static void Print() {
-			_walker.Walk((file,asm) => Console.WriteLine("{0}:{1}", file, asm.Name.Name),
-			    type => Console.WriteLine("  {0}",type.Name),
-				att => Console.WriteLine("	{0}", att),
-				ctor => Console.WriteLine("	.ctor:{0}", ctor),
-				evt => Console.WriteLine("	event:{0}",evt),
-				field => Console.WriteLine("	field:{0}", field),
-				generic => Console.WriteLine("	generic:{0}",generic),
-				iface => Console.WriteLine("	interface:{0}",iface),
-				method => Console.WriteLine("	method:{0}()", method),
-				nestedType => Console.WriteLine("	nested type:{0}", nestedType),
-				prop => Console.WriteLine("	prop:{0}",prop)
+			_walker.Walk((file,asm) => SysConsole.WriteLine("{0}:{1}", file, asm.Name.Name),
+			    type => SysConsole.WriteLine("  {0}",type.Name),
+				att => SysConsole.WriteLine("	{0}", att),
+				ctor => SysConsole.WriteLine("	.ctor:{0}", ctor),
+				evt => SysConsole.WriteLine("	event:{0}",evt),
+				field => SysConsole.WriteLine("	field:{0}", field),
+				generic => SysConsole.WriteLine("	generic:{0}",generic),
+				iface => SysConsole.WriteLine("	interface:{0}",iface),
+				method => SysConsole.WriteLine("	method:{0}()", method),
+				nestedType => SysConsole.WriteLine("	nested type:{0}", nestedType),
+				prop => SysConsole.WriteLine("	prop:{0}",prop)
 			);
 		}
 

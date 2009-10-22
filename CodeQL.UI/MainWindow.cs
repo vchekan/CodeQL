@@ -16,18 +16,29 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 using System;
+using System.Linq;
 using Gtk;
+
+using CodeQL;
 
 public partial class MainWindow: Gtk.Window
 {	
 	const string STATUS_BAR_CTS = "StatusBarContext";
+	uint _statusCtx;
+	static Db _db = new Db();
 	
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
 
-		uint ctx = statusbar1.GetContextId(STATUS_BAR_CTS);
-		statusbar1.Push(ctx, "Ready");
+		_statusCtx = this.statusbar.GetContextId(STATUS_BAR_CTS);
+		this.statusbar.Push(_statusCtx, "Ready");
+		
+		GLib.ExceptionManager.UnhandledException += delegate(GLib.UnhandledExceptionArgs args) {
+			statusbar.Push(_statusCtx, "Error: "+((Exception)args.ExceptionObject).Message);
+		};
+
+		
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -43,13 +54,30 @@ public partial class MainWindow: Gtk.Window
 
 	protected virtual void OnLoadActionActivated (object sender, System.EventArgs e)
 	{
-		uint loadingCtx = statusbar1.GetContextId(STATUS_BAR_CTS);
-		statusbar1.Push(loadingCtx, "Loading...");
+		statusbar.Push(_statusCtx, "Loading...");
+
+		//var item = (MenuItem)this.LastProjectsAction.CreateMenuItem();
+		var menu = (Menu)((ImageMenuItem)this.UIManager.GetWidget("/menubar2/FileAction/LastProjectsAction")).Submenu;
+
+		foreach(var widget in menu.Children)
+			menu.Remove(widget);
+
+		foreach(var proj in _db.ProjectsLoad()) {
+			var item = new MenuItem(proj.Title);
+			menu.Append(item);
+		}
+		menu.ShowAll();
+
+		
 		System.Threading.ThreadPool.QueueUserWorkItem((o) => {
-			System.Threading.Thread.Sleep(5000);
 			Application.Invoke((obj,ars) => {
-				statusbar1.Pop(loadingCtx);
+				statusbar.Pop(_statusCtx);
 			});			
 		});
+	}
+
+	protected virtual void OnLastProjectsActionActivated (object sender, System.EventArgs e)
+	{
+		
 	}
 }
