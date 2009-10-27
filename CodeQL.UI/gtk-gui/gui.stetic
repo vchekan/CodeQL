@@ -15,13 +15,6 @@
         <property name="Label" translatable="yes">File</property>
         <property name="ShortLabel" translatable="yes">File</property>
       </action>
-      <action id="LoadAction">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Load...</property>
-        <property name="ShortLabel" translatable="yes">Load</property>
-        <property name="StockId">gtk-open</property>
-        <signal name="Activated" handler="OnLoadActionActivated" />
-      </action>
       <action id="SaveAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Save</property>
@@ -39,7 +32,6 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Last projects</property>
         <property name="ShortLabel" translatable="yes">Last projects</property>
-        <signal name="Activated" handler="OnLastProjectsActionActivated" />
       </action>
       <action id="ManageProjectsAction">
         <property name="Type">Action</property>
@@ -61,7 +53,6 @@
             <property name="MemberName" />
             <node name="menubar2" type="Menubar">
               <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="LoadAction" />
                 <node type="Menuitem" action="SaveAction" />
                 <node type="Menu" action="LastProjectsAction" />
                 <node type="Menuitem" action="ManageProjectsAction" />
@@ -78,8 +69,68 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.DrawingArea" id="drawingarea1">
+          <widget class="Gtk.Notebook" id="tabsControl">
             <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="CurrentPage">1</property>
+            <child>
+              <widget class="Gtk.VPaned" id="qlSplitter">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Position">112</property>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TextView" id="qlEditor">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                        <property name="Text" translatable="yes" />
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Resize">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="qlResultGrid">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="tabLableQL">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">QL</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder />
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="tabLabelTView">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">TView</property>
+              </widget>
+              <packing>
+                <property name="type">tab</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="Position">1</property>
@@ -94,7 +145,16 @@
               <placeholder />
             </child>
             <child>
-              <placeholder />
+              <widget class="Gtk.Image" id="busyIcon">
+                <property name="MemberName" />
+                <property name="Pixbuf">stock:gtk-dialog-error Menu</property>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
             </child>
           </widget>
           <packing>

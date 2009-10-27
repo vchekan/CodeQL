@@ -16,6 +16,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gtk;
 
@@ -26,6 +27,7 @@ public partial class MainWindow: Gtk.Window
 	const string STATUS_BAR_CTS = "StatusBarContext";
 	uint _statusCtx;
 	static Db _db = new Db();
+	Notebook _tabs;
 	
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
@@ -38,7 +40,11 @@ public partial class MainWindow: Gtk.Window
 			statusbar.Push(_statusCtx, "Error: "+((Exception)args.ExceptionObject).Message);
 		};
 
+		this.busyIcon.Hide();
+		_db.OnStart += () => {Application.Invoke((a,b) => {this.busyIcon.Show();});};
+		_db.OnStop += () => {Application.Invoke((a,b) => {this.busyIcon.Hide();});};
 		
+		LoadProjectsMenu();
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -52,32 +58,30 @@ public partial class MainWindow: Gtk.Window
 		Application.Quit();
 	}
 
-	protected virtual void OnLoadActionActivated (object sender, System.EventArgs e)
-	{
+	//
+	//
+	//
+	private void LoadProjectsMenu() {
 		statusbar.Push(_statusCtx, "Loading...");
 
-		//var item = (MenuItem)this.LastProjectsAction.CreateMenuItem();
 		var menu = (Menu)((ImageMenuItem)this.UIManager.GetWidget("/menubar2/FileAction/LastProjectsAction")).Submenu;
 
 		foreach(var widget in menu.Children)
 			menu.Remove(widget);
 
-		foreach(var proj in _db.ProjectsLoad()) {
+		var prjs = new List<Project>();
+		System.Threading.ThreadPool.QueueUserWorkItem(res=>{
+			prjs = _db.ProjectsLoad();
+		});
+		
+		foreach(var proj in prjs) {
 			var item = new MenuItem(proj.Title);
+			item.Activated += (sender, e) => {
+				statusbar.Push(_statusCtx, proj.Title);
+			};
 			menu.Append(item);
 		}
 		menu.ShowAll();
-
-		
-		System.Threading.ThreadPool.QueueUserWorkItem((o) => {
-			Application.Invoke((obj,ars) => {
-				statusbar.Pop(_statusCtx);
-			});			
-		});
-	}
-
-	protected virtual void OnLastProjectsActionActivated (object sender, System.EventArgs e)
-	{
-		
+		statusbar.Pop(_statusCtx);
 	}
 }

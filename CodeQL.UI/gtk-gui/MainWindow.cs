@@ -16,8 +16,6 @@ public partial class MainWindow {
     
     private Gtk.Action FileAction;
     
-    private Gtk.Action LoadAction;
-    
     private Gtk.Action SaveAction;
     
     private Gtk.Action ExitAction;
@@ -30,9 +28,25 @@ public partial class MainWindow {
     
     private Gtk.MenuBar menubar2;
     
-    private Gtk.DrawingArea drawingarea1;
+    private Gtk.Notebook tabsControl;
+    
+    private Gtk.VPaned qlSplitter;
+    
+    private Gtk.ScrolledWindow GtkScrolledWindow;
+    
+    private Gtk.TextView qlEditor;
+    
+    private Gtk.ScrolledWindow GtkScrolledWindow1;
+    
+    private Gtk.TreeView qlResultGrid;
+    
+    private Gtk.Label tabLableQL;
+    
+    private Gtk.Label tabLabelTView;
     
     private Gtk.Statusbar statusbar;
+    
+    private Gtk.Image busyIcon;
     
     protected virtual void Build() {
         Stetic.Gui.Initialize(this);
@@ -42,9 +56,6 @@ public partial class MainWindow {
         this.FileAction = new Gtk.Action("FileAction", Mono.Unix.Catalog.GetString("File"), null, null);
         this.FileAction.ShortLabel = Mono.Unix.Catalog.GetString("File");
         w1.Add(this.FileAction, null);
-        this.LoadAction = new Gtk.Action("LoadAction", Mono.Unix.Catalog.GetString("Load..."), null, "gtk-open");
-        this.LoadAction.ShortLabel = Mono.Unix.Catalog.GetString("Load");
-        w1.Add(this.LoadAction, null);
         this.SaveAction = new Gtk.Action("SaveAction", Mono.Unix.Catalog.GetString("Save"), null, "gtk-save");
         this.SaveAction.ShortLabel = Mono.Unix.Catalog.GetString("Save");
         w1.Add(this.SaveAction, null);
@@ -68,7 +79,7 @@ public partial class MainWindow {
         this.vbox1.Name = "vbox1";
         this.vbox1.Spacing = 6;
         // Container child vbox1.Gtk.Box+BoxChild
-        this.UIManager.AddUiFromString("<ui><menubar name='menubar2'><menu name='FileAction' action='FileAction'><menuitem name='LoadAction' action='LoadAction'/><menuitem name='SaveAction' action='SaveAction'/><menu name='LastProjectsAction' action='LastProjectsAction'/><menuitem name='ManageProjectsAction' action='ManageProjectsAction'/><separator/><menuitem name='ExitAction' action='ExitAction'/></menu></menubar></ui>");
+        this.UIManager.AddUiFromString("<ui><menubar name='menubar2'><menu name='FileAction' action='FileAction'><menuitem name='SaveAction' action='SaveAction'/><menu name='LastProjectsAction' action='LastProjectsAction'/><menuitem name='ManageProjectsAction' action='ManageProjectsAction'/><separator/><menuitem name='ExitAction' action='ExitAction'/></menu></menubar></ui>");
         this.menubar2 = ((Gtk.MenuBar)(this.UIManager.GetWidget("/menubar2")));
         this.menubar2.Name = "menubar2";
         this.vbox1.Add(this.menubar2);
@@ -77,21 +88,75 @@ public partial class MainWindow {
         w2.Expand = false;
         w2.Fill = false;
         // Container child vbox1.Gtk.Box+BoxChild
-        this.drawingarea1 = new Gtk.DrawingArea();
-        this.drawingarea1.Name = "drawingarea1";
-        this.vbox1.Add(this.drawingarea1);
-        Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.vbox1[this.drawingarea1]));
-        w3.Position = 1;
+        this.tabsControl = new Gtk.Notebook();
+        this.tabsControl.CanFocus = true;
+        this.tabsControl.Name = "tabsControl";
+        this.tabsControl.CurrentPage = 1;
+        // Container child tabsControl.Gtk.Notebook+NotebookChild
+        this.qlSplitter = new Gtk.VPaned();
+        this.qlSplitter.CanFocus = true;
+        this.qlSplitter.Name = "qlSplitter";
+        this.qlSplitter.Position = 112;
+        // Container child qlSplitter.Gtk.Paned+PanedChild
+        this.GtkScrolledWindow = new Gtk.ScrolledWindow();
+        this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+        this.GtkScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
+        // Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+        this.qlEditor = new Gtk.TextView();
+        this.qlEditor.CanFocus = true;
+        this.qlEditor.Name = "qlEditor";
+        this.GtkScrolledWindow.Add(this.qlEditor);
+        this.qlSplitter.Add(this.GtkScrolledWindow);
+        Gtk.Paned.PanedChild w4 = ((Gtk.Paned.PanedChild)(this.qlSplitter[this.GtkScrolledWindow]));
+        w4.Resize = false;
+        // Container child qlSplitter.Gtk.Paned+PanedChild
+        this.GtkScrolledWindow1 = new Gtk.ScrolledWindow();
+        this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
+        this.GtkScrolledWindow1.ShadowType = ((Gtk.ShadowType)(1));
+        // Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
+        this.qlResultGrid = new Gtk.TreeView();
+        this.qlResultGrid.CanFocus = true;
+        this.qlResultGrid.Name = "qlResultGrid";
+        this.GtkScrolledWindow1.Add(this.qlResultGrid);
+        this.qlSplitter.Add(this.GtkScrolledWindow1);
+        this.tabsControl.Add(this.qlSplitter);
+        // Notebook tab
+        this.tabLableQL = new Gtk.Label();
+        this.tabLableQL.Name = "tabLableQL";
+        this.tabLableQL.LabelProp = Mono.Unix.Catalog.GetString("QL");
+        this.tabsControl.SetTabLabel(this.qlSplitter, this.tabLableQL);
+        this.tabLableQL.ShowAll();
+        // Notebook tab
+        Gtk.Label w8 = new Gtk.Label();
+        w8.Visible = true;
+        this.tabsControl.Add(w8);
+        this.tabLabelTView = new Gtk.Label();
+        this.tabLabelTView.Name = "tabLabelTView";
+        this.tabLabelTView.LabelProp = Mono.Unix.Catalog.GetString("TView");
+        this.tabsControl.SetTabLabel(w8, this.tabLabelTView);
+        this.tabLabelTView.ShowAll();
+        this.vbox1.Add(this.tabsControl);
+        Gtk.Box.BoxChild w9 = ((Gtk.Box.BoxChild)(this.vbox1[this.tabsControl]));
+        w9.Position = 1;
         // Container child vbox1.Gtk.Box+BoxChild
         this.statusbar = new Gtk.Statusbar();
         this.statusbar.Name = "statusbar";
         this.statusbar.Spacing = 6;
+        // Container child statusbar.Gtk.Box+BoxChild
+        this.busyIcon = new Gtk.Image();
+        this.busyIcon.Name = "busyIcon";
+        this.busyIcon.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-dialog-error", Gtk.IconSize.Menu, 16);
+        this.statusbar.Add(this.busyIcon);
+        Gtk.Box.BoxChild w10 = ((Gtk.Box.BoxChild)(this.statusbar[this.busyIcon]));
+        w10.Position = 2;
+        w10.Expand = false;
+        w10.Fill = false;
         this.vbox1.Add(this.statusbar);
-        Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar]));
-        w4.PackType = ((Gtk.PackType)(1));
-        w4.Position = 2;
-        w4.Expand = false;
-        w4.Fill = false;
+        Gtk.Box.BoxChild w11 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar]));
+        w11.PackType = ((Gtk.PackType)(1));
+        w11.Position = 2;
+        w11.Expand = false;
+        w11.Fill = false;
         this.Add(this.vbox1);
         if ((this.Child != null)) {
             this.Child.ShowAll();
@@ -100,8 +165,6 @@ public partial class MainWindow {
         this.DefaultHeight = 300;
         this.Show();
         this.DeleteEvent += new Gtk.DeleteEventHandler(this.OnDeleteEvent);
-        this.LoadAction.Activated += new System.EventHandler(this.OnLoadActionActivated);
         this.ExitAction.Activated += new System.EventHandler(this.OnExitActionActivated);
-        this.LastProjectsAction.Activated += new System.EventHandler(this.OnLastProjectsActionActivated);
     }
 }

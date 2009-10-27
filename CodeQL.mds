@@ -9,6 +9,7 @@
       <Entry build="True" name="CodeQL.UI" configuration="Debug" />
       <Entry build="True" name="Treemapping" configuration="Debug" />
       <Entry build="True" name="CodeQL.Console" configuration="Debug" />
+      <Entry build="True" name="CodeQL.Testing" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="CodeQL" configuration="Release" />
@@ -16,6 +17,7 @@
       <Entry build="True" name="CodeQL.UI" configuration="Release" />
       <Entry build="True" name="Treemapping" configuration="Release" />
       <Entry build="True" name="CodeQL.Console" configuration="Release" />
+      <Entry build="True" name="CodeQL.Testing" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="CodeQL" single="True">
@@ -24,6 +26,7 @@
     <Execute type="None" entry="CodeQL.UI" />
     <Execute type="None" entry="Treemapping" />
     <Execute type="None" entry="CodeQL.Console" />
+    <Execute type="None" entry="CodeQL.Testing" />
   </StartMode>
   <Entries>
     <Entry filename="CodeQL.mdp" />
@@ -31,5 +34,6 @@
     <Entry filename="CodeQL.UI/CodeQL.UI.mdp" />
     <Entry filename="Treemapping/Treemapping.mdp" />
     <Entry filename="CodeQL.Console/CodeQL.Console.mdp" />
+    <Entry filename="CodeQL.Testing/CodeQL.Testing.mdp" />
   </Entries>
 </Combine>

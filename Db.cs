@@ -28,6 +28,8 @@ namespace CodeQL
 	{
 		const string CONN_STRING = "Data Source=codeql.db3;FailIfMissing=false";
 		SQLiteConnection _conn = new SQLiteConnection(CONN_STRING);
+		public Action OnStart;
+		public Action OnStop;
 		
 		static Db() {
 			using(var conn = new SQLiteConnection(CONN_STRING)) {
@@ -47,11 +49,18 @@ namespace CodeQL
 			#endregion
 			var cmd = _conn.CreateCommand();
 			cmd.CommandText = sql;
-			using(var reader = cmd.ExecuteReader()) {
-				if(beforeRead != null)
-					beforeRead(reader);
-				while(reader.Read())
-					onRead(reader);
+			if(OnStart != null)
+				OnStart();
+			try {
+				using(var reader = cmd.ExecuteReader()) {
+					if(beforeRead != null)
+						beforeRead(reader);
+					while(reader.Read())
+						onRead(reader);
+				}
+			} finally {
+				if(OnStop != null)
+					OnStop();
 			}
 		}
 		
@@ -166,7 +175,7 @@ select last_insert_rowid();";
 			}
 		}
 
-		public IEnumerable<Project> ProjectsLoad() {
+		public List<Project> ProjectsLoad() {
 			List<Project> res = new List<Project>();
 			ExecuteReader("select * from Project order by Created", null, reader => {
 				res.Add(new Project(){
