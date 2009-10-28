@@ -18,8 +18,9 @@
 
 using System;
 using System.Data;
+using _Console = System.Console;
 
-namespace CodeQL
+namespace CodeQL.Console
 {
 	
 	
@@ -28,14 +29,14 @@ namespace CodeQL
 		
 		public void Run()
 		{
-			Console.WriteLine("End statement with ';'");
-			Console.WriteLine("Enter 'quit' when done");
-			Console.WriteLine();
+			_Console.WriteLine("End statement with ';'");
+			_Console.WriteLine("Enter 'quit' when done");
+			_Console.WriteLine();
 
 			string line;
 			string statement = "";
-			Console.Write(">");
-			while((line = Console.ReadLine()) != "quit") {
+			_Console.Write(">");
+			while((line = _Console.ReadLine()) != "quit") {
 				statement += line + '\n';
 				if(!line.Trim().EndsWith(";"))
 					continue;
@@ -44,30 +45,30 @@ namespace CodeQL
 					try {
 						db.ExecuteReader(statement, PrintHeader,PrintGrid);
 					} catch(Exception e) {
-						Console.WriteLine(e.Message);
+						_Console.WriteLine(e.Message);
 					}
 				}
 				statement = "";
-				Console.Write(">");
+				_Console.Write(">");
 			}
 		}
 		
 		static void PrintHeader(IDataReader r) {
 			for(int i=0; i<r.FieldCount; i++) {
-				Console.Write(r.GetName(i));
+				_Console.Write(r.GetName(i));
 				if(i != r.FieldCount - 1)
-					Console.Write('|');
+					_Console.Write('|');
 			}
-			Console.WriteLine();
+			_Console.WriteLine();
 		}
 		
 		static void PrintGrid(IDataReader r) {
 			for(int i=0; i<r.FieldCount; i++) {
-				Console.Write(r.IsDBNull(i) ? "NULL" : r[i]);
+				_Console.Write(r.IsDBNull(i) ? "NULL" : r[i]);
 				if(i!=r.FieldCount-1)
-					Console.Write('|');
+					_Console.Write('|');
 			}
-			Console.WriteLine();
+			_Console.WriteLine();
 		}
 	}
 }

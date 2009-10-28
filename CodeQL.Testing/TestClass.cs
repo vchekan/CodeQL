@@ -18,6 +18,7 @@
 
 using System;
 using NUnit.Framework;
+using CodeQL;
 
 namespace CodeQL.Testing
 {
@@ -25,9 +26,12 @@ namespace CodeQL.Testing
 	[TestFixture]
 	public class TestClass
 	{
+		Db _db;
+		
 		[SetUp]
-		public void Delete() {
-			
+		public void SetUp() {
+			Db.Delete();
+			_db = new Db();
 		}
 		
 		[Test]

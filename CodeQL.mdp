@@ -27,7 +27,6 @@
     <File name="doc/features.txt" subtype="Code" buildaction="Nothing" />
     <File name="doc/lang.txt" subtype="Code" buildaction="Nothing" />
     <File name="doc/todo.txt" subtype="Code" buildaction="Nothing" />
-    <File name="CodeConsole.cs" subtype="Code" buildaction="Compile" />
     <File name="parsers" subtype="Directory" buildaction="Compile" />
     <File name="parsers/cs" subtype="Directory" buildaction="Compile" />
     <File name="parsers/mssql2005" subtype="Directory" buildaction="Compile" />

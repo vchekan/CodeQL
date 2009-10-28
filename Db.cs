@@ -20,13 +20,15 @@ using System;
 using System.Data.SQLite;
 using System.Data;
 using System.Collections.Generic;
+using System.IO;
 using Mono.Cecil;
 
 namespace CodeQL
 {
 	public class Db : IDisposable
 	{
-		const string CONN_STRING = "Data Source=codeql.db3;FailIfMissing=false";
+		const string DB_FILE_NAME = "codeql.db3";
+		const string CONN_STRING = "Data Source="+DB_FILE_NAME+";FailIfMissing=false";
 		SQLiteConnection _conn = new SQLiteConnection(CONN_STRING);
 		public Action OnStart;
 		public Action OnStop;
@@ -40,6 +42,11 @@ namespace CodeQL
 		
 		public Db() {
 			_conn.Open();	
+		}
+		
+		public static void Delete() {
+			if(File.Exists(DB_FILE_NAME))
+				File.Delete(DB_FILE_NAME);
 		}
 		
 		public void ExecuteReader(string sql, Action<IDataReader> beforeRead, Action<IDataReader> onRead) {
