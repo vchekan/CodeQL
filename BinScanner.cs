@@ -17,17 +17,23 @@
 // 
 
 using System;
+using System.Collections.Generic;
 using Mono.Cecil;
 
 namespace CodeQL
 {
 	public class BinScanner
 	{
-		private CodeWalker _walker;
+		private CodeWalker _walker = new CodeWalker();
 		
-		public BinScanner(CodeWalker walker)
-		{
-			_walker = walker;
+		public BinScanner AddFile(string fileName) {
+			_walker.AddFile(fileName);
+			return this;
+		}
+		
+		public BinScanner AddFiles(IEnumerable<string> files) {
+			_walker.Files.AddRange(files);
+			return this;
 		}
 		
 		public void Scan() {

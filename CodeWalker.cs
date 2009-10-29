@@ -47,6 +47,11 @@ namespace CodeQL
 			return this;
 		}
 		
+		public CodeWalker AddFiles(IEnumerable<string> files) {
+			this.Files.AddRange(files);
+			return this;
+		}
+		
 		
 		public void Walk(Action<string,AssemblyDefinition> onAssembly,
 		                 Action<TypeDefinition> onType,

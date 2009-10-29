@@ -27,18 +27,19 @@ namespace CodeQL.Console
 {
 	class MainClass
 	{
-		delegate void VoidDelegate();
-		static CodeWalker _walker = new CodeWalker();
-		static VoidDelegate _action = null;
+		static List<string> _files = new List<string>();
+		static Action _action = null;
 
 		public static int Main(string[] args)
 		{
 			new NDesk.Options.OptionSet().
 				//Add("help|h|?", o => {_action = WriteOptionDecription; }).
-				Add("file=", o => { _walker.AddFile(o); }).
+				Add("file=", o => { _files.Add(o); }).
 				Add("print", o => { _action = Print; }).
 				Add("console", o => { _action = new CodeConsole().Run; }).
-				Add("scan", o => { _action = new BinScanner(_walker).Scan; }).
+				Add("scan", o => { _action = 
+						() => {new BinScanner().AddFiles(_files).Scan(); };
+				}).
 				Parse(args);
 			
 			if(_action == null) {
@@ -53,7 +54,8 @@ namespace CodeQL.Console
 		}
 		
 		static void Print() {
-			_walker.Walk((file,asm) => SysConsole.WriteLine("{0}:{1}", file, asm.Name.Name),
+			new CodeWalker().AddFiles(_files).Walk(
+		        (file,asm) => SysConsole.WriteLine("{0}:{1}", file, asm.Name.Name),
 			    type => SysConsole.WriteLine("  {0}",type.Name),
 				att => SysConsole.WriteLine("	{0}", att),
 				ctor => SysConsole.WriteLine("	.ctor:{0}", ctor),

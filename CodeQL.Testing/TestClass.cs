@@ -17,6 +17,8 @@
 // 
 
 using System;
+using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using CodeQL;
 
@@ -26,76 +28,82 @@ namespace CodeQL.Testing
 	[TestFixture]
 	public class TestClass
 	{
-		Db _db;
-		
 		[SetUp]
 		public void SetUp() {
 			Db.Delete();
-			_db = new Db();
 		}
 		
 		[Test]
-		public void SelfScan()
-		{
+		public void SelfScan() {
+			new BinScanner().
+				AddFile(Assembly.GetExecutingAssembly().Location).
+				Scan();
 		}
 		
 		[Test]
 		public void CheckAssemblies() {
-			
+			var asm = new Query().Select("select * from assembly where name='CodeQL.Testing.dll'").
+				First();
 		}
 		
 		[Test]
 		public void AssemblyAttributes() {
-				
+			throw new NotImplementedException();	
 		}
 		
 		[Test]
 		public void Class() {
-			
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void ClassAttribute() {
-			
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void Function() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void Params() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void Fields() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void ReadOnlyProperty() {
-			
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void RWProperty() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void PublicRPrivateWProperty() {
-			
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void Interface() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void NoUpdate() {
+			throw new NotImplementedException();
 		}
 		
 		[Test]
 		public void Update() {
-			
+			throw new NotImplementedException();
 		}
 	}
 }

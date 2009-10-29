@@ -70,6 +70,29 @@ namespace CodeQL
 					OnStop();
 			}
 		}
+
+		public IEnumerable<T> ExecuteReader<T>(string sql, Action<IDataReader> beforeRead, Func<IDataReader,T> materializer) {
+			#region contract
+			if(materializer == null)
+				throw new ArgumentNullException("onRead");
+			#endregion
+			var cmd = _conn.CreateCommand();
+			cmd.CommandText = sql;
+			if(OnStart != null)
+				OnStart();
+			try {
+				using(var reader = cmd.ExecuteReader()) {
+					if(beforeRead != null)
+						beforeRead(reader);
+					while(reader.Read())
+						yield return materializer(reader);
+				}
+			} finally {
+				if(OnStop != null)
+					OnStop();
+			}
+		}
+
 		
 		private static void Create(SQLiteConnection conn) {
 			var cmd = conn.CreateCommand();
