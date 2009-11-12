@@ -30,9 +30,9 @@ namespace CodeQL.Testing
 		[Test]
 		public void CheckAssemblies() {
 			var asm = new Query().
-				Select("select * from assembly where name='CodeQL.Testing.dll'").
+				Select("select * from assembly where fileName='CodeQL.Testing.dll'").
 				ToList();
-			Assert.IsTrue(asm.Count == 1, "Expect to find just one assembly");
+			Assert.AreEqual(1, asm.Count, "Expect to find just one assembly");
 		}
 		
 		[Test]

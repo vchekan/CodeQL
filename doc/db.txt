@@ -21,6 +21,7 @@ xobject
 assembly
     id
     projectId
+    filePath
     fileName
     
 type
