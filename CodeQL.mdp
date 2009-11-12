@@ -1,38 +1,37 @@
-<Project name="CodeQL" fileversion="2.0" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="CodeQL" fileversion="2.0" DefaultNamespace="CodeQL" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL" />
       <Build debugmode="True" target="Library" />
-      <Execution runwithwarnings="True" commandlineparameters="--scan --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
-      <EnvironmentVariables />
+      <Execution consolepause="True" commandlineparameters="--scan --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG TRACE_ACTIONS" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="CodeQL" />
       <Build debugmode="False" target="Library" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
-    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="lexer.cs" subtype="Code" buildaction="Compile" />
-    <File name="parser.cs" subtype="Code" buildaction="Compile" />
-    <File name="cs2.y" subtype="Code" buildaction="Nothing" />
-    <File name="../../../parser/gppg-distro-1.3.5/project/ShiftReduceParser/ShiftReduceParserCode.cs" subtype="Code" buildaction="Compile" />
-    <File name="cs.lex" subtype="Code" buildaction="Nothing" />
-    <File name="Db.cs" subtype="Code" buildaction="Compile" />
-    <File name="CodeWalker.cs" subtype="Code" buildaction="Compile" />
-    <File name="doc/db.txt" subtype="Code" buildaction="Nothing" />
-    <File name="doc/features.txt" subtype="Code" buildaction="Nothing" />
-    <File name="doc/lang.txt" subtype="Code" buildaction="Nothing" />
-    <File name="doc/todo.txt" subtype="Code" buildaction="Nothing" />
-    <File name="parsers" subtype="Directory" buildaction="Compile" />
-    <File name="parsers/cs" subtype="Directory" buildaction="Compile" />
-    <File name="parsers/mssql2005" subtype="Directory" buildaction="Compile" />
-    <File name="BinScanner.cs" subtype="Code" buildaction="Compile" />
-    <File name="Project.cs" subtype="Code" buildaction="Compile" />
-    <File name="Query.cs" subtype="Code" buildaction="Compile" />
+    <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
+    <File subtype="Code" buildaction="Compile" name="lexer.cs" />
+    <File subtype="Code" buildaction="Compile" name="parser.cs" />
+    <File subtype="Code" buildaction="Nothing" name="cs2.y" />
+    <File subtype="Code" buildaction="Compile" name="../../../parser/gppg-distro-1.3.5/project/ShiftReduceParser/ShiftReduceParserCode.cs" />
+    <File subtype="Code" buildaction="Nothing" name="cs.lex" />
+    <File subtype="Code" buildaction="Compile" name="Db.cs" />
+    <File subtype="Code" buildaction="Compile" name="CodeWalker.cs" />
+    <File subtype="Code" buildaction="Nothing" name="doc/db.txt" />
+    <File subtype="Code" buildaction="Nothing" name="doc/features.txt" />
+    <File subtype="Code" buildaction="Nothing" name="doc/lang.txt" />
+    <File subtype="Code" buildaction="Nothing" name="doc/todo.txt" />
+    <File subtype="Directory" buildaction="Compile" name="parsers" />
+    <File subtype="Directory" buildaction="Compile" name="parsers/cs" />
+    <File subtype="Directory" buildaction="Compile" name="parsers/mssql2005" />
+    <File subtype="Code" buildaction="Compile" name="BinScanner.cs" />
+    <File subtype="Code" buildaction="Compile" name="Project.cs" />
+    <File subtype="Code" buildaction="Compile" name="Query.cs" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -42,6 +41,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml.Linq, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=a5715cc6d5c3540b" />
   </References>
   <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile" BuildTargetName="build">
     <BuildFilesVar />

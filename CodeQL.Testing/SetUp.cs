@@ -1,5 +1,10 @@
 // 
-//  Copyright (C) 2009 Vadim Chekan
+//  SetUp.cs
+//  
+//  Author:
+//       Vadim Chekan <kot.begemot@gmail.com>
+// 
+//  Copyright (c) 2009 Vadim Chekan
 // 
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,26 +22,30 @@
 // 
 
 using System;
-using System.Collections.Generic;
+using System.Reflection;
+using NUnit.Framework;
 
-namespace CodeQL
+namespace CodeQL.Testing
 {
-	// TODO: implement IDisposable
-	public class Query
+	[SetUpFixture]
+	public class SetUp
 	{
-		Db _db = new Db(); 
+		[SetUp]
+		public void InitDb() {
+			log4net.Config.BasicConfigurator.Configure();
+			Db.Delete();
+			SelfScan();
+		}
 		
-		public IEnumerable<object[]> Select(string sql) {
+		//[Test]
+		public void SelfScan() {
+			// TODO: test double scan
+			// TODO: test re-scan with and without assembly updates
 			
-			// TODO: translate CodeQL to SQL
-			
-			foreach(var row in _db.ExecuteReader<object[]>(sql, null, reader => {
-				object[] values = new object[reader.FieldCount];
-				reader.GetValues(values);
-				return values;
-			})) {
-				yield return row;
-			}
+			Console.WriteLine("Scanning: {0}", Assembly.GetExecutingAssembly().Location);
+			new BinScanner().
+				AddFile(Assembly.GetExecutingAssembly().Location).
+				Scan();
 		}
 	}
 }

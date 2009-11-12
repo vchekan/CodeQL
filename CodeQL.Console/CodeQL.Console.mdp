@@ -1,22 +1,22 @@
-<Project name="CodeQL.Console" fileversion="2.0" language="C#" targetFramework="3.5" ctype="DotNetProject">
+<Project name="CodeQL.Console" fileversion="2.0" DefaultNamespace="CodeQL.Console" language="C#" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL.Console" />
       <Build debugmode="True" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution consolepause="True" commandlineparameters="--file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.Testing/bin/Debug/CodeQL.Testing.dll --scan" runwithwarnings="True" runtime="MsNet" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="CodeQL.Console" />
       <Build debugmode="False" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
-    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="Main.cs" subtype="Code" buildaction="Compile" />
-    <File name="CodeConsole.cs" subtype="Code" buildaction="Compile" />
+    <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
+    <File subtype="Code" buildaction="Compile" name="Main.cs" />
+    <File subtype="Code" buildaction="Compile" name="CodeConsole.cs" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

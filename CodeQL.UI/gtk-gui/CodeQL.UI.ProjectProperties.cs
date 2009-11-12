@@ -24,7 +24,6 @@ namespace CodeQL.UI {
             // Widget CodeQL.UI.ProjectProperties
             this.Name = "CodeQL.UI.ProjectProperties";
             this.WindowPosition = ((Gtk.WindowPosition)(4));
-            this.HasSeparator = false;
             // Internal child CodeQL.UI.ProjectProperties.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";

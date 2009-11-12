@@ -1,15 +1,15 @@
-<Project name="Treemapping" fileversion="2.0" language="C#" targetFramework="3.5" ctype="DotNetProject">
+<Project name="Treemapping" fileversion="2.0" DefaultNamespace="Treemapping" language="C#" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="Treemapping" />
       <Build debugmode="True" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="Treemapping" />
       <Build debugmode="False" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>

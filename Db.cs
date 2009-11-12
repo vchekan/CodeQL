@@ -29,24 +29,34 @@ namespace CodeQL
 	{
 		const string DB_FILE_NAME = "codeql.db3";
 		const string CONN_STRING = "Data Source="+DB_FILE_NAME+";FailIfMissing=false";
-		SQLiteConnection _conn = new SQLiteConnection(CONN_STRING);
+		SQLiteConnection _conn;
 		public Action OnStart;
 		public Action OnStop;
+		static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(Db).FullName);
 		
-		static Db() {
+		/*static Db() {
 			using(var conn = new SQLiteConnection(CONN_STRING)) {
 				conn.Open();
 				Create(conn);
+				_log.Debug("Db initialized");
 			}
-		}
+		}*/
 		
 		public Db() {
-			_conn.Open();	
+			Conn.Open();	
+			Create(Conn);
+			_log.Debug("Db initialized");
+		}
+		
+		SQLiteConnection Conn {
+			get { return _conn ?? (_conn = new SQLiteConnection(CONN_STRING)); }
 		}
 		
 		public static void Delete() {
-			if(File.Exists(DB_FILE_NAME))
+			if(File.Exists(DB_FILE_NAME)) {
 				File.Delete(DB_FILE_NAME);
+				_log.Debug("Db file deleted");
+			}
 		}
 		
 		public void ExecuteReader(string sql, Action<IDataReader> beforeRead, Action<IDataReader> onRead) {
@@ -54,7 +64,7 @@ namespace CodeQL
 			if(onRead == null)
 				throw new ArgumentNullException("onRead");
 			#endregion
-			var cmd = _conn.CreateCommand();
+			var cmd = Conn.CreateCommand();
 			cmd.CommandText = sql;
 			if(OnStart != null)
 				OnStart();
@@ -76,7 +86,7 @@ namespace CodeQL
 			if(materializer == null)
 				throw new ArgumentNullException("onRead");
 			#endregion
-			var cmd = _conn.CreateCommand();
+			var cmd = Conn.CreateCommand();
 			cmd.CommandText = sql;
 			if(OnStart != null)
 				OnStart();
@@ -113,11 +123,12 @@ select count(*) from project;";
 			if(count == 0) {
 				cmd.CommandText = @"insert into project(filename, title, autoscan, created) values('', 'Workbench', 1, "+DateTime.UtcNow.Ticks+")";
 				cmd.ExecuteNonQuery();
+				_log.Debug("Inserted default project");
 			}
 		}
 		
 		public long InsertType(TypeDefinition type, long asmId) {
-			var cmd = _conn.CreateCommand();
+			var cmd = Conn.CreateCommand();
 			cmd.CommandText = @"insert into xobject(type,name,parentId) values(4,@name,@parentId);
 insert into type(namespace) values(@namespace); select last_insert_rowid();
 insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
@@ -130,8 +141,8 @@ select last_insert_rowid();";
 		}
 
 		public long InsertAssembly(AssemblyDefinition asm, string fileName, long parentId) {
-			using(var tx = _conn.BeginTransaction()) {
-				var cmd = _conn.CreateCommand();
+			using(var tx = Conn.BeginTransaction()) {
+				var cmd = Conn.CreateCommand();
 				cmd.CommandText = @"insert into xobject(type,name,parentId) values(3,@name,@parentId);
 insert into assembly(id, fileName) values(last_insert_rowid(), @fileName);
 insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
@@ -147,8 +158,8 @@ select last_insert_rowid();";
 		}
 		
 		public long InsertAttribute(CustomAttribute att, long typeId) {
-			using(var tx = _conn.BeginTransaction()) {
-				var cmd = _conn.CreateCommand();
+			using(var tx = Conn.BeginTransaction()) {
+				var cmd = Conn.CreateCommand();
 				cmd.CommandText = @"insert into xobject(type,name,parentId) values(8,@name,@parentId);
 insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
 insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
@@ -190,8 +201,8 @@ select last_insert_rowid();";
 		}
 		
 		public long InsertInternal(string name, long parentId, int type) {
-			using(var tx = _conn.BeginTransaction()) {
-				var cmd = _conn.CreateCommand();
+			using(var tx = Conn.BeginTransaction()) {
+				var cmd = Conn.CreateCommand();
 				cmd.CommandText = @"insert into xobject(type,name,parentId) values(@type,@name,@parentId);
 insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
 insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
