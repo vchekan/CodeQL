@@ -35,17 +35,37 @@ namespace CodeQL.Testing
 			Assert.AreEqual(1, asm.Count, "Expect to find just one assembly");
 		}
 		
-		[Test]
-		public void AssemblyAttributes() {
-			//throw new NotImplementedException();	
+		//[Test]
+		public void AssemblyAttributesShort() {
+			// AssemblyTitle("CodeQL.Testing")]
+			var attributes = new Query().
+				Select(@"select * from assembly asm
+join attribute att on att belongs to asm and att.name='AssemblyTitle'
+join property pr on pr belongs to att and property.name='Title'").ToList();
+			Assert.AreEqual(1, attributes.Count, "Expect just one AssemblyTitle attribute");
 		}
 		
 		[Test]
-		public void Class() {
-			//throw new NotImplementedException();
+		public void AssemblyAttributesLong() {
+			// attribute with "Attribute" suffix
 		}
 		
 		[Test]
+		public void ClassCount() {
+			object result = new Query().SelectScalar("select count(*) from type");
+			Assert.IsAssignableFrom(typeof(long), result);
+			Assert.AreEqual(3, (long)result);
+		}
+
+		[Test]
+		public void ClassCountInternal() {
+			// internal does not have a dedicated flag and any non-public is internal
+			var result = new Query().Select("select count(*) from type where typeAttributes & {0} = 0",
+				(int)TypeAttributes.Public).ToList();
+			Assert.AreEqual(1, result.Count);
+		}
+		
+		/*[Test]
 		public void ClassAttribute() {
 			//throw new NotImplementedException();
 		}
@@ -94,5 +114,6 @@ namespace CodeQL.Testing
 		public void Update() {
 			//throw new NotImplementedException();
 		}
+		*/
 	}
 }

@@ -105,7 +105,7 @@ create table if not exists projectFiles(projectId int, versionId int, path text)
 create table if not exists projectVersion(id int, name text);
 create table if not exists xobject(id integer primary key autoincrement, type int, name text, parentId int);
 create table if not exists assembly(id integer primary key, filePath text, fileName text);
-create table if not exists type(id integer primary key, namespace text);
+create table if not exists type(id integer primary key, namespace text, typeAttributes int);
 create table if not exists xtree(objectId integer, parentId integer, level int); 
 	create index if not exists i_xtree1 on xtree(objectId, parentId);
 	create index if not exists i_xtree2 on xtree(parentId);
@@ -122,12 +122,13 @@ select count(*) from project;";
 		public long InsertType(TypeDefinition type, long asmId) {
 			var cmd = Conn.CreateCommand();
 			cmd.CommandText = @"insert into xobject(type,name,parentId) values(4,@name,@parentId);
-insert into type(namespace) values(@namespace); select last_insert_rowid();
+insert into type(namespace, typeAttributes) values(@namespace, @typeAttributes); select last_insert_rowid();
 insert into xtree(objectId, parentId, level) select last_insert_rowid(), parentId, level+1 from xtree where objectId=@parentId;
 insert into xtree(objectId, parentId, level) values(last_insert_rowid(), last_insert_rowid(), 0);
 select last_insert_rowid();";
 			cmd.Parameters.AddWithValue("@name", type.Name);
 			cmd.Parameters.AddWithValue("@namespace", type.Namespace);
+			cmd.Parameters.AddWithValue("@typeAttributes", type.Attributes);
 			cmd.Parameters.AddWithValue("@parentId", asmId);
 			return (long)cmd.ExecuteScalar();
 		}

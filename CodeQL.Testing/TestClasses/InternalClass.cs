@@ -1,5 +1,10 @@
 // 
-//  Copyright (C) 2009 Vadim Chekan
+//  PrivateClass.cs
+//  
+//  Author:
+//       Vadim Chekan <kot.begemot@gmail.com>
+// 
+//  Copyright (c) 2009 Vadim Chekan
 // 
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,33 +22,14 @@
 // 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace CodeQL
+namespace CodeQL.Testing
 {
-	// TODO: implement IDisposable
-	public class Query
+	internal class InternalClass
 	{
-		Db _db = new Db(); 
-		
-		public IEnumerable<object[]> Select(string sql, params object[] arguments) {
-			if(arguments != null)
-				sql = string.Format(sql, arguments);
-			
-			// TODO: translate CodeQL to SQL
-			
-			foreach(var row in _db.ExecuteReader<object[]>(sql, null, reader => {
-				object[] values = new object[reader.FieldCount];
-				reader.GetValues(values);
-				return values;
-			})) {
-				yield return row;
-			}
-		}
-		
-		public object SelectScalar(string sql) {
-			return Select(sql).Single()[0];
+
+		public InternalClass ()
+		{
 		}
 	}
 }

@@ -27,6 +27,7 @@ assembly
 type
     id
     fullName
+    typeAttributes
     
 member
     id
