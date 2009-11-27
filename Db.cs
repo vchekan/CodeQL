@@ -106,7 +106,7 @@ create table if not exists projectVersion(id int, name text);
 create table if not exists xobject(id integer primary key autoincrement, type int, name text, parentId int);
 create table if not exists assembly(id integer primary key, filePath text, fileName text);
 create table if not exists type(id integer primary key, namespace text, typeAttributes int);
-create table if not exists property(id integer primary key, ispublic int, isinternal int, isprotected int, isprivate int);
+create table if not exists property(id integer primary key, visibility int, getVisibility int, setVisibility int);
 create table if not exists xtree(objectId integer, parentId integer, level int); 
 	create index if not exists i_xtree1 on xtree(objectId, parentId);
 	create index if not exists i_xtree2 on xtree(parentId);
@@ -184,20 +184,37 @@ select last_insert_rowid();";
 		}
 
 		public long InsertProperty(PropertyDefinition prop, long typeId) {
-			// TODO: case when get and set have different visibility is not handled yet
+			Visibility visibility, getVisibility, setVisibility;
+			
+			getVisibility = GetVisibility(prop.GetMethod);
+			setVisibility = GetVisibility(prop.SetMethod);
+			if(getVisibility == setVisibility)
+				visibility = getVisibility;
+			else
+				visibility = Visibility.NotDefined;
+						
 			bool isPublic = prop.GetMethod.IsPublic && prop.SetMethod.IsPublic;
 			bool isInternal = prop.GetMethod.IsAssembly && prop.SetMethod.IsAssembly;
 			bool isPrivate = prop.GetMethod.IsPrivate && prop.SetMethod.IsPrivate;
 			bool isProtected = prop.GetMethod.IsFamily && prop.SetMethod.IsFamily;
-			/*if(!(isPublic && isInternal && isPrivate && isProtected))
-				throw new ApplicationException("Unknown visibility flag: "+);*/
 			return InsertInternal(prop.Name, typeId, 13, (cmd) => {
-				cmd.CommandText += "insert into property(id, ispublic, isinternal, isprotected, isprivate) values(last_insert_rowid(), @ispublic, @isinternal, @isprotected, @isprivate)";
-				cmd.Parameters.AddWithValue("@ispublic", isPublic);
-				cmd.Parameters.AddWithValue("@isinternal", isInternal);
-				cmd.Parameters.AddWithValue("@isprotected", isProtected);
-				cmd.Parameters.AddWithValue("@isprivate", isPrivate);
+				cmd.CommandText += "insert into property(id, visibility, getVisibility, setVisibility) values(last_insert_rowid(), @visibility, @getVisibility, @setVisibility)";
+				cmd.Parameters.AddWithValue("@visibility", visibility);
+				cmd.Parameters.AddWithValue("@getVisibility", getVisibility);
+				cmd.Parameters.AddWithValue("@setVisibility", setVisibility);
 			});
+		}
+		
+		private static Visibility GetVisibility(MethodDefinition method) {
+			if(method.IsPublic)
+				return Visibility.Public;
+			else if(method.IsAssembly)
+				return  Visibility.Internal;
+			else if(method.IsPrivate)
+				return  Visibility.Private;
+			else if(method.IsFamily)
+				return  Visibility.Private;
+			throw new ApplicationException("Unknown visibility:"+method.ToString());
 		}
 
 		public long InsertInterface(TypeReference iface, long typeId) {

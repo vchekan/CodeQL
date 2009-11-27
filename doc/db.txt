@@ -39,7 +39,10 @@ field
     
 property
     id
-    visibility
+    visibility		--- as defined in enum Visibility. 
+    				--- If Get and Set visibility are different, then NotDefined
+    getVisibility	--- get and set re always defined
+    setVisibility
     
 attribute
     classId
