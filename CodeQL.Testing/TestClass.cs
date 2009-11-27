@@ -65,6 +65,35 @@ join property pr on pr belongs to att and property.name='Title'").ToList();
 			Assert.AreEqual(1, result.Count);
 		}
 		
+		[Test]
+		public void MethodsInClass() {
+			#region sql
+			string sql = @"select count(*) 
+from xobject o
+join type t on t.id=o.id and t.namespace='CodeQL.Testing'
+join xobject p on p.type=13 and p.parentId=o.id
+where o.type=4 and o.name='InternalClass'";
+			#endregion
+			var res = new Query().Select(sql).ToList();
+			Assert.AreEqual(1, res.Count);
+		}
+		
+		[Test]
+		public void PublicMethodsInClass() {
+			#region sql
+			string sql = string.Format(@"select count(*) 
+from xobject o
+join type t on t.id=o.id and t.namespace='CodeQL.Testing'
+join xobject p on p.type=13 and p.parentId=o.id
+join property pr on pr.id=p.id
+	and pr.ispublic
+where o.type=4 and o.name='InternalClass'");
+			#endregion
+			var res = new Query().Select(sql).ToList();
+			Assert.AreEqual(1, res.Count);
+		}
+		
+		
 		/*[Test]
 		public void ClassAttribute() {
 			//throw new NotImplementedException();

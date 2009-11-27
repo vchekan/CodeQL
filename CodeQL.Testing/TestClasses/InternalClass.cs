@@ -31,5 +31,15 @@ namespace CodeQL.Testing
 		public InternalClass ()
 		{
 		}
+		
+		protected string ProtectedProperty {get; set;}
+		
+		private string PrivateProperty {get; set;}
+		
+		internal string InternalProperty {get; set;}
+		
+		public string StringProp1 {get; set;}
+		
+		public string HalfPublic {get {return "";} private set {;}}
 	}
 }

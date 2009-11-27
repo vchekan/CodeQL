@@ -39,6 +39,7 @@ field
     
 property
     id
+    visibility
     
 attribute
     classId

@@ -27,3 +27,9 @@ select c.name as class_name, u.name as used_in
 from class c
 join member m on m belongs to c
 join class u on u used in m
+
+---
+--- Properties do not have visibility, but their get and set have.
+--- At the same time in the source code it is usually property is marked
+--- with visibility attribute so most searches will be .
+---

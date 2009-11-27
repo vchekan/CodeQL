@@ -106,6 +106,7 @@ create table if not exists projectVersion(id int, name text);
 create table if not exists xobject(id integer primary key autoincrement, type int, name text, parentId int);
 create table if not exists assembly(id integer primary key, filePath text, fileName text);
 create table if not exists type(id integer primary key, namespace text, typeAttributes int);
+create table if not exists property(id integer primary key, ispublic int, isinternal int, isprotected int, isprivate int);
 create table if not exists xtree(objectId integer, parentId integer, level int); 
 	create index if not exists i_xtree1 on xtree(objectId, parentId);
 	create index if not exists i_xtree2 on xtree(parentId);
@@ -183,7 +184,20 @@ select last_insert_rowid();";
 		}
 
 		public long InsertProperty(PropertyDefinition prop, long typeId) {
-			return InsertInternal(prop.Name, typeId, 13);
+			// TODO: case when get and set have different visibility is not handled yet
+			bool isPublic = prop.GetMethod.IsPublic && prop.SetMethod.IsPublic;
+			bool isInternal = prop.GetMethod.IsAssembly && prop.SetMethod.IsAssembly;
+			bool isPrivate = prop.GetMethod.IsPrivate && prop.SetMethod.IsPrivate;
+			bool isProtected = prop.GetMethod.IsFamily && prop.SetMethod.IsFamily;
+			/*if(!(isPublic && isInternal && isPrivate && isProtected))
+				throw new ApplicationException("Unknown visibility flag: "+);*/
+			return InsertInternal(prop.Name, typeId, 13, (cmd) => {
+				cmd.CommandText += "insert into property(id, ispublic, isinternal, isprotected, isprivate) values(last_insert_rowid(), @ispublic, @isinternal, @isprotected, @isprivate)";
+				cmd.Parameters.AddWithValue("@ispublic", isPublic);
+				cmd.Parameters.AddWithValue("@isinternal", isInternal);
+				cmd.Parameters.AddWithValue("@isprotected", isProtected);
+				cmd.Parameters.AddWithValue("@isprivate", isPrivate);
+			});
 		}
 
 		public long InsertInterface(TypeReference iface, long typeId) {
@@ -193,8 +207,16 @@ select last_insert_rowid();";
 		public long InsertMethod(MethodDefinition method, long typeId) {
 			return InsertInternal(method.Name, typeId, 6);
 		}
-		
+
 		public long InsertInternal(string name, long parentId, int type) {
+			return InsertInternal(name, parentId, type, null);
+		}
+		
+		/// <summary>
+		/// Insert an object into xobject table and add hierarchy into xtree.
+		/// <returns>ID of newly created object</returns>
+		/// </summary>
+		public long InsertInternal(string name, long parentId, int type, Action<SQLiteCommand> beforeExecute) {
 			using(var tx = Conn.BeginTransaction()) {
 				var cmd = Conn.CreateCommand();
 				cmd.CommandText = @"insert into xobject(type,name,parentId) values(@type,@name,@parentId);
@@ -204,6 +226,8 @@ select last_insert_rowid();";
 				cmd.Parameters.AddWithValue("@name", name);
 				cmd.Parameters.AddWithValue("@parentId", parentId);
 				cmd.Parameters.AddWithValue("@type", type);
+				if(beforeExecute != null)
+					beforeExecute(cmd);
 				long id = (long)cmd.ExecuteScalar();
 				tx.Commit();
 				return id;

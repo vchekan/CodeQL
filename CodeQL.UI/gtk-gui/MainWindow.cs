@@ -9,7 +9,6 @@
 // ------------------------------------------------------------------------------
 
 
-
 public partial class MainWindow {
     
     private Gtk.UIManager UIManager;
