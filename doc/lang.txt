@@ -15,18 +15,19 @@ where m is public
 --- natural join
 --- group by (and count) table, not table column
 ---
-select a.name, count(c)
+select a.name, count(cl) cnt
 from assembly a
-natural join class c
+natural join a.class cl
 group by a
+order by cnt
 
 ---
---- named relation "belongs to" "used in"
+--- named relation "used in"
 ---
 select c.name as class_name, u.name as used_in
 from class c
-join member m on m belongs to c
-join class u on u used in m
+join c.member m
+join class u on u is used in m
 
 ---
 --- Properties do not have visibility, but their get and set have.

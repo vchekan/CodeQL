@@ -15,8 +15,6 @@
   </Configurations>
   <Contents>
     <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
-    <File subtype="Code" buildaction="Compile" name="lexer.cs" />
-    <File subtype="Code" buildaction="Compile" name="parser.cs" />
     <File subtype="Code" buildaction="Nothing" name="cs2.y" />
     <File subtype="Code" buildaction="Compile" name="../../../parser/gppg-distro-1.3.5/project/ShiftReduceParser/ShiftReduceParserCode.cs" />
     <File subtype="Code" buildaction="Nothing" name="cs.lex" />
@@ -24,15 +22,28 @@
     <File subtype="Code" buildaction="Compile" name="CodeWalker.cs" />
     <File subtype="Code" buildaction="Nothing" name="doc/db.txt" />
     <File subtype="Code" buildaction="Nothing" name="doc/features.txt" />
-    <File subtype="Code" buildaction="Nothing" name="doc/lang.txt" />
+    <File subtype="Code" buildaction="Nothing" name="doc/lang.txt" Gettext.ScanForTranslations="False" />
     <File subtype="Code" buildaction="Nothing" name="doc/todo.txt" />
     <File subtype="Directory" buildaction="Compile" name="parsers" />
     <File subtype="Directory" buildaction="Compile" name="parsers/cs" />
     <File subtype="Directory" buildaction="Compile" name="parsers/mssql2005" />
-    <File subtype="Code" buildaction="Compile" name="BinScanner.cs" />
     <File subtype="Code" buildaction="Compile" name="Project.cs" />
-    <File subtype="Code" buildaction="Compile" name="Query.cs" />
+    <File subtype="Code" buildaction="Compile" name="RawQuery.cs" />
     <File subtype="Code" buildaction="Compile" name="Visibility.cs" />
+    <File subtype="Directory" buildaction="Compile" name="parsers/cql" />
+    <File subtype="Code" buildaction="Nothing" name="parsers/cql/cql.y" />
+    <File subtype="Code" buildaction="Compile" name="parsers/cql/cql_parser.cs" />
+    <File subtype="Code" buildaction="Nothing" name="parsers/cql/cql.l" />
+    <File subtype="Code" buildaction="Compile" name="parsers/cql/cql_scanner.cs" />
+    <File subtype="Code" buildaction="Compile" name="CodeQLQuery.cs" />
+    <File subtype="Directory" buildaction="Compile" name="CqlAst" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/BatchNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/ExpressionNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/SelectNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/WhereNode.cs" />
+    <File subtype="Directory" buildaction="Compile" name="Translate" />
+    <File subtype="Code" buildaction="Compile" name="parsers/cql/ParserImpl.cs" />
+    <File subtype="Code" buildaction="Compile" name="BinScanner.cs" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

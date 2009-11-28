@@ -43,7 +43,7 @@ join property pr on pr.id=p.id
 	and pr.visibility={0}
 where o.type=4 and o.name='InternalClass'", (int)Visibility.Public);
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 		
@@ -58,7 +58,7 @@ join property pr on pr.id=p.id
 	and pr.visibility
 where o.type=4 and o.name='InternalClass'", (int)Visibility.Internal);
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 		
@@ -73,7 +73,7 @@ join property pr on pr.id=p.id
 	and pr.visibility
 where o.type=4 and o.name='InternalClass'", (int)Visibility.Protected);
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 		
@@ -88,7 +88,7 @@ join property pr on pr.id=p.id
 	and pr.visibility
 where o.type=4 and o.name='InternalClass'", (int)Visibility.Private);
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 		
@@ -103,7 +103,7 @@ join property pr on pr.id=p.id
 	and pr.getVisibility={0} and pr.setVisibility={1}
 where o.type=4 and o.name='InternalClass'", (int)Visibility.Public, (int)Visibility.Private);
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 	}

@@ -29,7 +29,7 @@ namespace CodeQL.Testing
 	{
 		[Test]
 		public void CheckAssemblies() {
-			var asm = new Query().
+			var asm = new RawQuery().
 				Select("select * from assembly where fileName='CodeQL.Testing.dll'").
 				ToList();
 			Assert.AreEqual(1, asm.Count, "Expect to find just one assembly");
@@ -38,7 +38,7 @@ namespace CodeQL.Testing
 		//[Test]
 		public void AssemblyAttributesShort() {
 			// AssemblyTitle("CodeQL.Testing")]
-			var attributes = new Query().
+			var attributes = new RawQuery().
 				Select(@"select * from assembly asm
 join attribute att on att belongs to asm and att.name='AssemblyTitle'
 join property pr on pr belongs to att and property.name='Title'").ToList();
@@ -52,15 +52,15 @@ join property pr on pr belongs to att and property.name='Title'").ToList();
 		
 		[Test]
 		public void ClassCount() {
-			object result = new Query().SelectScalar("select count(*) from type");
+			object result = new RawQuery().SelectScalar("select count(*) from type");
 			Assert.IsAssignableFrom(typeof(long), result);
-			Assert.AreEqual(4, (long)result);
+			Assert.AreEqual(5, (long)result);
 		}
 
 		[Test]
 		public void ClassCountInternal() {
 			// internal does not have a dedicated flag and any non-public is internal
-			var result = new Query().Select("select count(*) from type where typeAttributes & {0} = 0",
+			var result = new RawQuery().Select("select count(*) from type where typeAttributes & {0} = 0",
 				(int)TypeAttributes.Public).ToList();
 			Assert.AreEqual(1, result.Count);
 		}
@@ -74,7 +74,7 @@ join type t on t.id=o.id and t.namespace='CodeQL.Testing'
 join xobject p on p.type=13 and p.parentId=o.id
 where o.type=4 and o.name='InternalClass'";
 			#endregion
-			var res = new Query().Select(sql).ToList();
+			var res = new RawQuery().Select(sql).ToList();
 			Assert.AreEqual(1, res.Count);
 		}
 		
