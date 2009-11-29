@@ -22,11 +22,13 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace CodeQL
 {
 
-	public class SelectNode
+	public class SelectNode : StatementNode
 	{
+		public List<SelectExpressionNode> SelectExpressions;
 	}
 }

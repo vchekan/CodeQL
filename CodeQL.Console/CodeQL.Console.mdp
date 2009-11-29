@@ -3,7 +3,7 @@
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="CodeQL.Console" />
       <Build debugmode="True" target="Exe" />
-      <Execution consolepause="True" commandlineparameters="--file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.Testing/bin/Debug/CodeQL.Testing.dll --scan" runwithwarnings="True" runtime="MsNet" />
+      <Execution consolepause="True" commandlineparameters="--translate -- select c.name as public_classes from class c where c is public" runwithwarnings="True" runtime="MsNet" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="False" definesymbols="DEBUG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
@@ -25,5 +25,6 @@
     <ProjectReference type="Assembly" localcopy="True" specificVersion="False" refto="../lib/NDesk.Options.dll" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=a5715cc6d5c3540b" />
   </References>
 </Project>

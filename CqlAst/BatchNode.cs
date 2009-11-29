@@ -22,12 +22,13 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace CodeQL
 {
-
 	public class BatchNode
 	{
+		public List<StatementNode> Statements = new List<StatementNode>();
 
 	}
 }

@@ -31,8 +31,10 @@ namespace CodeQL
 		Db _db = new Db();
 		
 		public IEnumerable<object[]> Select(string sql, params object[] arguments) {
-			sql = Translate(sql, arguments);
-			return new RawQuery().Select(sql);
+			string translatedSql = Translate(sql, arguments);
+			
+			_log.DebugFormat("CodeQL:\n{0}\nCompiled:\n{1}", sql, translatedSql);
+			return new RawQuery().Select(translatedSql);
 		}
 		
 		public string Translate(string cql, params object[] arguments) {
@@ -43,7 +45,9 @@ namespace CodeQL
 			if(!parser.Parse(cql))
 				throw new ApplicationException("Parsing error");
 			
-			return cql;
+			return new SqlWriter().Write(parser.Batch);
 		}
+		
+		static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(CodeQLQuery).FullName);
 	}
 }

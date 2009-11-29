@@ -4,7 +4,7 @@
       <Output directory="bin/Debug" assembly="CodeQL" />
       <Build debugmode="True" target="Library" />
       <Execution consolepause="True" commandlineparameters="--scan --file /home/vadim/Projects/CodeQL/src/CodeQL/CodeQL.mds" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG TRACE_ACTIONS" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="3" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" definesymbols="DEBUG EXPORT_GPPG" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Release" assembly="CodeQL" />
@@ -44,6 +44,13 @@
     <File subtype="Directory" buildaction="Compile" name="Translate" />
     <File subtype="Code" buildaction="Compile" name="parsers/cql/ParserImpl.cs" />
     <File subtype="Code" buildaction="Compile" name="BinScanner.cs" />
+    <File subtype="Code" buildaction="Compile" name="Translate/ClassHandler.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/TableNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/StatementNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="Translate/SqlWriter.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/SelectExpressionNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/ColumnExpressionNode.cs" />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/ConstNode.cs" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

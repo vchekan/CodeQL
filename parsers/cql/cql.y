@@ -24,38 +24,60 @@
 %namespace CodeQL.parsers.cql
 %partial
 
-%token SELECT FROM NAME WHERE JOIN LEFT RIGHT NUMBER LE GE NE IS USED IN PUBLIC INTERNAL PROTECTED PRIVATE AS
+%token SELECT FROM WHERE JOIN LEFT RIGHT  LE GE NE IS USED IN PUBLIC INTERNAL PROTECTED PRIVATE AS
+%token <Number> NUMBER
+%token <Name> NAME
 %right NOT
 %left AND
 %left OR 
 
+%YYSTYPE CqlValueType
+%union {
+	public StatementNode Statement;
+	public SelectNode Select;
+	public List<SelectExpressionNode> SelectExprs;
+	public SelectExpressionNode SelectExpr;
+	public ExpressionNode Expression;
+	public ColumnExpressionNode ColumnExpression;
+	//
+	public string Name;
+	public int Number;
+}
+
+%type <Statement> statement
+%type <Select> select
+%type <SelectExprs> selectExprs
+%type <SelectExpr> selectExpr
+%type <Expression> expr
+%type <ColumnExpression> column
+
 %%
 
 batch
-	: statement			{Console.WriteLine("Dummy action");}
-	| statement ';' batch
+	: statement			{ this.Batch = new BatchNode(); this.Batch.Statements.Add($1); }
+	| batch ';' statement	{ this.Batch.Statements.Add($3); }
 	;
 	
 statement
-	: select
+	: select	{ $$=$1; }
 	;
 	
 select
-	: SELECT selectExprs FROM NAME NAME joinsOpt whereOpt
+	: SELECT selectExprs FROM NAME NAME joinsOpt whereOpt		{ $$ = new SelectNode { SelectExpressions=$2 }; }
 	;
 	
 selectExprs
-	: selectExpr
-	| selectExpr selectExprs
+	: selectExpr				{ $$ = new List<SelectExpressionNode>(); $$.Add($1); }
+	| selectExprs selectExpr	{ $$.Add($2); }
 	;
 	
 selectExpr
-	: expr
-	| expr AS NAME
+	: expr			{ $$ = new SelectExpressionNode {Expression=$1}; }
+	| expr AS NAME	{ $$ = new SelectExpressionNode {Expression=$1, ImplicitAlias=$3}; }
 	;
 
 column
-	: NAME '.' NAME
+	: NAME '.' NAME		{$$ = new ColumnExpressionNode {Name=$3, TableAlias=$1}; }
 	;
 
 joinsOpt
@@ -65,7 +87,7 @@ joinsOpt
 	
 joins
 	: join
-	| join joins
+	| joins join
 	;
 
 join
@@ -90,8 +112,8 @@ boolExpr
 		;
 
 expr
-	: NUMBER
-	| column
+	: NUMBER	{$$ = new ConstNode {Constant=$1}; }
+	| column	{$$ = $1; }
 	;
 
 comparison

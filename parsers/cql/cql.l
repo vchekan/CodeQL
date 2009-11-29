@@ -48,13 +48,12 @@ protected	{return (int)Tokens.PROTECTED;}
 private		{return (int)Tokens.PRIVATE;}
 as			{return (int)Tokens.AS;}
 
-[0-9]+		{return (int)Tokens.NUMBER ;}
-[a-zA-Z][_0-9a-zA-Z]*	{Console.WriteLine("debug name: '{0}'",yytext); return (int)Tokens.NAME;}
-//[_a-zA-Z][_a-zA-Z0-9]?	{return (int)Tokens.NAME;}
+[0-9]+		{yylval.Number = int.Parse(yytext); return (int)Tokens.NUMBER ;}
+[a-zA-Z][_0-9a-zA-Z]*	{ yylval.Name = yytext; return (int)Tokens.NAME;}
 
 [\.\(\)\<\>=;]	{return (int)yytext[0];}
 
 
-.	{Console.WriteLine("Unknown character:"+yytext);}
+.	{throw new ApplicationException("Unknown character:"+yytext);}
 
 %%

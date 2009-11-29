@@ -37,7 +37,7 @@ namespace CodeQL
 		public Db() {
 			Conn.Open();	
 			Create(Conn);
-			_log.Debug("Db initialized");
+			//_log.Debug("Db initialized");
 		}
 		
 		SQLiteConnection Conn {
