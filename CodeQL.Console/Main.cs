@@ -30,14 +30,14 @@ namespace CodeQL.Console
 		static List<string> _files = new List<string>();
 		static Action _action = null;
 		static string _unparsed = null;
+		static NDesk.Options.OptionSet _options;
 
 		public static int Main(string[] args)
 		{
 			log4net.Config.BasicConfigurator.Configure();
 			log4net.LogManager.GetLogger(typeof(MainClass).FullName).Debug("Started");
 			
-			var remains = new NDesk.Options.OptionSet().
-				//Add("help|h|?", o => {_action = WriteOptionDecription; }).
+			_options = new NDesk.Options.OptionSet().
 				Add("file=", o => _files.Add(o) ).
 				Add("print", o => _action = Print ).
 				Add("console", o => { _action = new CodeConsole().Run; }).
@@ -45,13 +45,14 @@ namespace CodeQL.Console
 						() => {new BinScanner().AddFiles(_files).Scan(); };
 				}).
 				Add("translate", o => {_action = () => new CodeQLQuery().Select(_unparsed);}).
-				Parse(args);
+				Add("help|h|?", o => _action = () => { _options.WriteOptionDescriptions(SysConsole.Error); });
 
+			var remains = _options.Parse(args);
 			if(remains != null && remains.Count > 0)
 				_unparsed = string.Join(" ", remains.ToArray());
 			
 			if(_action == null) {
-				SysConsole.Error.WriteLine("No action defined");
+				_options.WriteOptionDescriptions(SysConsole.Error);
 				return 1;
 			}
 			
