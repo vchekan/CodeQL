@@ -35,7 +35,7 @@ namespace CodeQL.Testing
 			Assert.AreEqual(1, asm.Count, "Expect to find just one assembly");
 		}
 		
-		//[Test]
+		[Ignore]
 		public void AssemblyAttributesShort() {
 			// AssemblyTitle("CodeQL.Testing")]
 			var attributes = new RawQuery().
@@ -45,7 +45,7 @@ join property pr on pr belongs to att and property.name='Title'").ToList();
 			Assert.AreEqual(1, attributes.Count, "Expect just one AssemblyTitle attribute");
 		}
 		
-		[Test]
+		[Ignore]
 		public void AssemblyAttributesLong() {
 			// attribute with "Attribute" suffix
 		}

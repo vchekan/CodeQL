@@ -1,5 +1,5 @@
 // 
-//  StatementNode.cs
+//  GraphIterator.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -20,9 +20,32 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
+
 using System;
+using System.Collections.Generic;
+
 namespace CodeQL {
-	public abstract class StatementNode : Node {
+
+
+	public class GraphIterator<T> {
+		T _start;
+		Func<T,IEnumerable<T>> _children;
+		public GraphIterator(T start, Func<T,IEnumerable<T>> children) {
+			_start = start;
+			_children = children;
+		}
+		
+		public GraphIterator<T> BreadthFirst(Action<T> callback) {
+			Queue<T> queue = new Queue<T>();
+			queue.Enqueue(_start);
+			do {
+				T node = queue.Dequeue();
+				callback(node);
+				foreach( var child in _children(node))
+					queue.Enqueue(child);
+			} while(queue.Count > 0);
+				
+			return this;
+		}
 	}
 }
-

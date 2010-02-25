@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeQL
 {
@@ -30,5 +31,10 @@ namespace CodeQL
 	public class SelectNode : StatementNode
 	{
 		public List<SelectExpressionNode> SelectExpressions;
+		
+		public override IEnumerable<INode> Children {
+			get { return SelectExpressions.Cast<INode>(); }
+		}
+
 	}
 }

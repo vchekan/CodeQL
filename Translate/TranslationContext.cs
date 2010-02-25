@@ -1,5 +1,5 @@
 // 
-//  StatementNode.cs
+//  TranslationContext.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -20,9 +20,42 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
+
 using System;
+
 namespace CodeQL {
-	public abstract class StatementNode : Node {
+
+
+	public class TranslationContext : IDisposable {
+		[ThreadStatic]
+		static TranslationContext _instance;
+		
+		BatchNode _batch;
+
+		public TranslationContext() {
+			if(_instance != null)
+				throw new ApplicationException("Context already initialized");
+			_instance = this;
+		}
+		
+		private static TranslationContext Instance {
+			get {
+				if(_instance == null)
+					throw new ApplicationException("Context not initilized");
+				return _instance;
+			}
+		}
+		
+		public static BatchNode Batch {
+			get { return Instance._batch; }
+			internal set { Instance._batch = value; }
+		}
+		
+		void IDisposable.Dispose() {
+			if(_instance == null)
+				throw new ApplicationException("Context not initilized");
+			_instance = null;
+		}
+		
 	}
 }
-

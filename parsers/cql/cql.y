@@ -39,7 +39,7 @@
 	public SelectExpressionNode SelectExpr;
 	public ExpressionNode Expression;
 	public ColumnExpressionNode ColumnExpression;
-	//
+	// set by scanner
 	public string Name;
 	public int Number;
 }

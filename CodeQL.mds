@@ -1,6 +1,8 @@
 <Combine fileversion="2.0" name="CodeQL">
   <Policies>
     <StandardHeader inheritsSet="GPLv2License" />
+    <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+    <CSharpFormattingPolicy NamespaceBraceStyle="EndOfLine" ClassBraceStyle="EndOfLine" InterfaceBraceStyle="EndOfLine" StructBraceStyle="EndOfLine" EnumBraceStyle="EndOfLine" MethodBraceStyle="EndOfLine" ConstructorBraceStyle="EndOfLine" DestructorBraceStyle="EndOfLine" PlaceCatchOnNewLine="True" PlaceFinallyOnNewLine="True" BeforeMethodCallParentheses="False" BeforeMethodDeclarationParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" IfParentheses="False" WhileParentheses="False" ForParentheses="False" ForeachParentheses="False" CatchParentheses="False" SwitchParentheses="False" LockParentheses="False" UsingParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
   </Policies>
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
@@ -20,7 +22,7 @@
       <Entry build="True" name="CodeQL.Testing" configuration="Release" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="CodeQL.Console" single="True">
+  <StartMode startupentry="CodeQL.Testing" single="True">
     <Execute type="None" entry="CodeQL" />
     <Execute type="None" entry="SQLDetector" />
     <Execute type="None" entry="CodeQL.UI" />

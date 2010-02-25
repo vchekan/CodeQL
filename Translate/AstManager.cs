@@ -1,5 +1,5 @@
 // 
-//  StatementNode.cs
+//  AstManager.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -20,9 +20,17 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
+
 using System;
+
 namespace CodeQL {
-	public abstract class StatementNode : Node {
+
+
+	public class AstManager {
+		public void AddTable(TableNode table, TableNode newTable, ref string alias) {
+			SelectExpressionNode select = (SelectExpressionNode)table.Parent;
+			table.Parent.Remove(table);
+			//Add(newTable);
+		}
 	}
 }
-

@@ -23,14 +23,51 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeQL
 {
 	public class ClassHandler
 	{
-		TableNode _table;
-		public void AddTable(TableNode table) {
-			_table = table;
+		static ClassHandler() {
+			_tables = new List<TableInfo>() {
+			new TableInfo() {LogicalName = "type", LogicalColumnNames = new [] {
+					"name",
+					"fullName"
+				}}
+			};
 		}
+		
+		public void Run() {
+			new GraphIterator<INode>(TranslationContext.Batch, n => n.Children).
+				BreadthFirst(node=>{
+					if(node is TableNode && (node as TableNode).Name.ToLower() == "class")
+						HandleClass(node as TableNode);
+				});
+		}
+		
+		void HandleClass(TableNode classTable) {
+			TableInfo tableInfo = _tables.First(info => info.LogicalName == "class");
+			
+			/*using(AstManager ast = new AstManager()) {
+				ast.OnTableRemove = pos => {
+					var physicalTables = GetPhysicalTables(classTable.ReferedColumns);
+					ast.InsertTables(physicalTables);
+				};
+				ast.
+				ast.ReplaceTable(classTable);
+			}*/
+			
+		}
+		
+		static List<TableInfo> _tables;
+	}
+	
+	
+	
+	class TableInfo 
+	{
+		public string LogicalName;
+		public string[] LogicalColumnNames;
 	}
 }

@@ -34,3 +34,6 @@ join class u on u is used in m
 --- At the same time in the source code it is usually property is marked
 --- with visibility attribute so most searches will be .
 ---
+
+Find functions which cast their arguments.
+Unless the cast is made as result of "is" or "as" condition.

@@ -10,6 +10,7 @@
 
 namespace CodeQL.UI {
     
+    
     public partial class ProjectProperties {
         
         private Gtk.VBox vbox2;

@@ -41,10 +41,8 @@ namespace CodeQL.Console
 				Add("file=", o => _files.Add(o) ).
 				Add("print", o => _action = Print ).
 				Add("console", o => { _action = new CodeConsole().Run; }).
-				Add("scan", o => { _action = 
-						() => {new BinScanner().AddFiles(_files).Scan(); };
-				}).
-				Add("translate", o => {_action = () => new CodeQLQuery().Select(_unparsed);}).
+				Add("scan", o => _action = () => {new BinScanner().AddFiles(_files).Scan(); }).
+				Add("translate", o => _action = () => new CodeQLQuery().Select(_unparsed)).
 				Add("help|h|?", o => _action = () => { _options.WriteOptionDescriptions(SysConsole.Error); });
 
 			var remains = _options.Parse(args);

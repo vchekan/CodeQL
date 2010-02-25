@@ -55,9 +55,12 @@ namespace CodeQL
 		}
 		
 		void Write(SelectNode select) {
+			#region contract
+			if(select == null)
+				throw new ArgumentNullException("select");
+			#endregion
 			_sql.Write(new[] {'\t'}, 0, _indent);
 			_sql.Write("select ");
-			//select.SelectExpressions.ForEach((e) => { this.Write(e); _sql.Write(", "); });
 			foreach(SelectExpressionNode expr in select.SelectExpressions) { 
 				this.Write(expr); 
 				_sql.Write(", "); 

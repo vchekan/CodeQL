@@ -23,12 +23,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeQL
 {
-	public class BatchNode
+	public class BatchNode : Node
 	{
 		public List<StatementNode> Statements = new List<StatementNode>();
-
+		public override IEnumerable<INode> Children {
+			get {return Statements.Cast<INode>();}
+		}
+		
 	}
 }

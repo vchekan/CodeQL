@@ -1,5 +1,5 @@
 // 
-//  StatementNode.cs
+//  Node.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -21,8 +21,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
 using System;
+using System.Collections.Generic;
 namespace CodeQL {
-	public abstract class StatementNode : Node {
+
+	public abstract class Node : INode {
+		public INode Parent {get; set;}
+		public abstract IEnumerable<INode> Children {get;}
+		public virtual void Remove(INode child) {throw new NotImplementedException();}
 	}
 }
 
