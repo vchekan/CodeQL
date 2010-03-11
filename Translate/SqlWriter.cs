@@ -61,14 +61,14 @@ namespace CodeQL
 			#endregion
 			_sql.Write(new[] {'\t'}, 0, _indent);
 			_sql.Write("select ");
-			foreach(SelectExpressionNode expr in select.SelectExpressions) { 
+			foreach(SelectColumnNode expr in select.SelectColumns) { 
 				this.Write(expr); 
 				_sql.Write(", "); 
 			}
 			_sql.GetStringBuilder().Length -= 2;
 		}
 		
-		void Write(SelectExpressionNode selectExpression) {
+		void Write(SelectColumnNode selectExpression) {
 			#region contract
 			if(selectExpression == null)
 				throw new ArgumentNullException("selectExpression");

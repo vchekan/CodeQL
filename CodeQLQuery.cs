@@ -45,9 +45,11 @@ namespace CodeQL
 			if(!parser.Parse(cql))
 				throw new ApplicationException("Parsing error");
 			
-			// run transforms
-			new ClassHandler().Run();
-			
+			using(TranslationContext ctx = new TranslationContext(parser.Batch))
+			{
+				// run transforms
+				new ClassHandler().Run();
+			}
 			return new SqlWriter().Write(parser.Batch);
 		}
 		

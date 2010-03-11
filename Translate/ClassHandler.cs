@@ -29,12 +29,44 @@ namespace CodeQL
 {
 	public class ClassHandler
 	{
+		//static readonly TableInfo[] _physicalTableInfo;
+		static readonly RelationInfo[] _relation;
+		/// <summary>
+		/// Physical table name -> [logical column, physical column]
+		/// </summary>
+		static readonly List<TableRecord> _namesInfo;
+		// Reverse map: LName to a table
+		static Dictionary<string,TableRecord> _lNameToTableMap;
+
 		static ClassHandler() {
-			_tables = new List<TableInfo>() {
-			new TableInfo() {LogicalName = "type", LogicalColumnNames = new [] {
-					"name",
-					"fullName"
-				}}
+			_namesInfo = new List<TableRecord> {
+				new TableRecord {
+					PTableName = "xobject", 
+					Names = new [] {
+						new NamesRecord {LogicalName = "name", PhysicalName = "name"}
+					}
+				},
+				new TableRecord {
+					PTableName = "type",
+					Names = new [] {
+						new NamesRecord {LogicalName = "fullName", PhysicalName = "fullName"}
+					}
+				}
+			};
+			
+			_lNameToTableMap = new Dictionary<string, TableRecord>(StringComparer.OrdinalIgnoreCase);
+			foreach(var rec in _namesInfo)
+				foreach(var name in rec.Names)
+					_lNameToTableMap.Add(name.LogicalName, rec);
+			
+			_relation = new [] {
+				new RelationInfo {
+					LeftTable = "xobject",
+					RightTable = "type",
+					JoinType = JoinType.Inner,
+					LeftConditionColumn = "id",
+					RightConditionColumn = "id"
+				}
 			};
 		}
 		
@@ -47,7 +79,14 @@ namespace CodeQL
 		}
 		
 		void HandleClass(TableNode classTable) {
-			TableInfo tableInfo = _tables.First(info => info.LogicalName == "class");
+			// Find all involved physical tables
+			//_lNameToTableMap.TryGetValue(classTable.
+			
+			/*TableInfo tableInfo = _tables.FirstOrDefault(info => info.LogicalName == classTable.Name);
+			if(tableInfo == null)
+				throw new TranslatorException("Unknown table: '"+classTable.Name+"'");*/
+			
+			//TableNode physicalTable = new TableNode {Name = tableInfo. };
 			
 			/*using(AstManager ast = new AstManager()) {
 				ast.OnTableRemove = pos => {
@@ -60,14 +99,31 @@ namespace CodeQL
 			
 		}
 		
-		static List<TableInfo> _tables;
 	}
 	
 	
 	
-	class TableInfo 
+	/*class MappingInfo
 	{
+		public string Name;
+		public string[] ColumnNames;
+	}*/
+	
+	class TableRecord {
+		public string PTableName;
+		public NamesRecord[] Names;
+	}
+	
+	class NamesRecord {
 		public string LogicalName;
-		public string[] LogicalColumnNames;
+		public string PhysicalName;
+	}
+	
+	class RelationInfo {
+		public string LeftTable;
+		public string RightTable;
+		public JoinType JoinType;
+		public string LeftConditionColumn;
+		public string RightConditionColumn;
 	}
 }

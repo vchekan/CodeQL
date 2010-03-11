@@ -1,10 +1,10 @@
 // 
-//  ColumnExpressionNode.cs
+//  JoinType.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
 // 
-//  Copyright (c) 2009 Vadim Chekan
+//  Copyright (c) 2010 Vadim Chekan
 // 
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,19 +22,14 @@
 // 
 
 using System;
-using System.Collections.Generic;
 
-namespace CodeQL
-{
+namespace CodeQL {
 
-	public class ColumnExpressionNode : ExpressionNode
-	{
-		public string Name;
-		public string TableAlias;
-		
-		public override IEnumerable<INode> Children {
-			get {yield break;}
-		}
 
+	public enum JoinType {
+		Left,
+		Right,
+		Inner,
+		Cross,
 	}
 }

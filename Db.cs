@@ -17,7 +17,8 @@
 // 
 
 using System;
-using System.Data.SQLite;
+//using System.Data.SQLite;
+using Mono.Data.Sqlite;
 using System.Data;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,7 @@ namespace CodeQL
 	{
 		const string DB_FILE_NAME = "codeql.db3";
 		const string CONN_STRING = "Data Source="+DB_FILE_NAME+";FailIfMissing=false";
-		SQLiteConnection _conn;
+		SqliteConnection _conn;
 		public Action OnStart;
 		public Action OnStop;
 		static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(Db).FullName);
@@ -40,8 +41,8 @@ namespace CodeQL
 			//_log.Debug("Db initialized");
 		}
 		
-		SQLiteConnection Conn {
-			get { return _conn ?? (_conn = new SQLiteConnection(CONN_STRING)); }
+		SqliteConnection Conn {
+			get { return _conn ?? (_conn = new SqliteConnection(CONN_STRING)); }
 		}
 		
 		public static void Delete() {
@@ -96,7 +97,7 @@ namespace CodeQL
 		}
 
 		
-		private static void Create(SQLiteConnection conn) {
+		private static void Create(SqliteConnection conn) {
 			var cmd = conn.CreateCommand();
 			#region sql
 			cmd.CommandText = @"
@@ -233,7 +234,7 @@ select last_insert_rowid();";
 		/// Insert an object into xobject table and add hierarchy into xtree.
 		/// <returns>ID of newly created object</returns>
 		/// </summary>
-		public long InsertInternal(string name, long parentId, int type, Action<SQLiteCommand> beforeExecute) {
+		public long InsertInternal(string name, long parentId, int type, Action<SqliteCommand> beforeExecute) {
 			using(var tx = Conn.BeginTransaction()) {
 				var cmd = Conn.CreateCommand();
 				cmd.CommandText = @"insert into xobject(type,name,parentId) values(@type,@name,@parentId);

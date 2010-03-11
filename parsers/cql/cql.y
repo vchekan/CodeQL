@@ -35,8 +35,8 @@
 %union {
 	public StatementNode Statement;
 	public SelectNode Select;
-	public List<SelectExpressionNode> SelectExprs;
-	public SelectExpressionNode SelectExpr;
+	public List<SelectColumnNode> SelectExprs;
+	public SelectColumnNode SelectExpr;
 	public ExpressionNode Expression;
 	public ColumnExpressionNode ColumnExpression;
 	// set by scanner
@@ -47,7 +47,7 @@
 %type <Statement> statement
 %type <Select> select
 %type <SelectExprs> selectExprs
-%type <SelectExpr> selectExpr
+%type <SelectExpr> selectColumn
 %type <Expression> expr
 %type <ColumnExpression> column
 
@@ -63,17 +63,22 @@ statement
 	;
 	
 select
-	: SELECT selectExprs FROM NAME NAME joinsOpt whereOpt		{ $$ = new SelectNode { SelectExpressions=$2 }; }
+	: SELECT selectExprs FROM NAME NAME joinsOpt whereOpt		{ 
+			$$ = new SelectNode { 
+				SelectColumns=$2,
+				FromTable = new TableNode {Name = $4, Alias = $5 }
+			}; 
+		}
 	;
 	
 selectExprs
-	: selectExpr				{ $$ = new List<SelectExpressionNode>(); $$.Add($1); }
-	| selectExprs selectExpr	{ $$.Add($2); }
+	: selectColumn				{ $$ = new List<SelectColumnNode>(); $$.Add($1); }
+	| selectExprs selectColumn	{ $$.Add($2); }
 	;
 	
-selectExpr
-	: expr			{ $$ = new SelectExpressionNode {Expression=$1}; }
-	| expr AS NAME	{ $$ = new SelectExpressionNode {Expression=$1, ImplicitAlias=$3}; }
+selectColumn
+	: expr			{ $$ = new SelectColumnNode {Expression=$1}; }
+	| expr AS NAME	{ $$ = new SelectColumnNode {Expression=$1, ImplicitAlias=$3}; }
 	;
 
 column

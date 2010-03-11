@@ -4,7 +4,7 @@
 
 // GPPG version 1.3.5.190
 // Machine:  ubuntu
-// DateTime: 11/29/2009 2:40:44 PM
+// DateTime: 3/4/2010 7:37:15 PM
 // UserName: vadim
 // Input file <cql.y>
 
@@ -28,11 +28,11 @@ public partial struct CqlValueType
 {
 	public StatementNode Statement;
 	public SelectNode Select;
-	public List<SelectExpressionNode> SelectExprs;
-	public SelectExpressionNode SelectExpr;
+	public List<SelectColumnNode> SelectExprs;
+	public SelectColumnNode SelectExpr;
 	public ExpressionNode Expression;
 	public ColumnExpressionNode ColumnExpression;
-	//
+	// set by scanner
 	public string Name;
 	public int Number;
 }
@@ -158,7 +158,7 @@ public partial class Parser: ShiftReduceParser<CqlValueType, LexLocation>
     this.InitRules(rules);
 
     this.InitNonTerminals(new string[] {"", "statement", "select", "selectExprs", 
-      "selectExpr", "expr", "column", "batch", "$accept", "joinsOpt", "whereOpt", 
+      "selectColumn", "expr", "column", "batch", "$accept", "joinsOpt", "whereOpt", 
       "joins", "join", "boolExpr", "comparison", "visibility", });
   }
 
@@ -176,19 +176,24 @@ public partial class Parser: ShiftReduceParser<CqlValueType, LexLocation>
 { CurrentSemanticValue.Statement=ValueStack[ValueStack.Depth-1].Select; }
         break;
       case 5: // select -> SELECT, selectExprs, FROM, NAME, NAME, joinsOpt, whereOpt
-{ CurrentSemanticValue.Select = new SelectNode { SelectExpressions=ValueStack[ValueStack.Depth-6].SelectExprs }; }
+{ 
+			CurrentSemanticValue.Select = new SelectNode { 
+				SelectColumns=ValueStack[ValueStack.Depth-6].SelectExprs,
+				FromTable = new TableNode {Name = ValueStack[ValueStack.Depth-4].Name, Alias = ValueStack[ValueStack.Depth-3].Name }
+			}; 
+		}
         break;
-      case 6: // selectExprs -> selectExpr
-{ CurrentSemanticValue.SelectExprs = new List<SelectExpressionNode>(); CurrentSemanticValue.SelectExprs.Add(ValueStack[ValueStack.Depth-1].SelectExpr); }
+      case 6: // selectExprs -> selectColumn
+{ CurrentSemanticValue.SelectExprs = new List<SelectColumnNode>(); CurrentSemanticValue.SelectExprs.Add(ValueStack[ValueStack.Depth-1].SelectExpr); }
         break;
-      case 7: // selectExprs -> selectExprs, selectExpr
+      case 7: // selectExprs -> selectExprs, selectColumn
 { CurrentSemanticValue.SelectExprs.Add(ValueStack[ValueStack.Depth-1].SelectExpr); }
         break;
-      case 8: // selectExpr -> expr
-{ CurrentSemanticValue.SelectExpr = new SelectExpressionNode {Expression=ValueStack[ValueStack.Depth-1].Expression}; }
+      case 8: // selectColumn -> expr
+{ CurrentSemanticValue.SelectExpr = new SelectColumnNode {Expression=ValueStack[ValueStack.Depth-1].Expression}; }
         break;
-      case 9: // selectExpr -> expr, AS, NAME
-{ CurrentSemanticValue.SelectExpr = new SelectExpressionNode {Expression=ValueStack[ValueStack.Depth-3].Expression, ImplicitAlias=ValueStack[ValueStack.Depth-1].Name}; }
+      case 9: // selectColumn -> expr, AS, NAME
+{ CurrentSemanticValue.SelectExpr = new SelectColumnNode {Expression=ValueStack[ValueStack.Depth-3].Expression, ImplicitAlias=ValueStack[ValueStack.Depth-1].Name}; }
         break;
       case 10: // column -> NAME, '.', NAME
 {CurrentSemanticValue.ColumnExpression = new ColumnExpressionNode {Name=ValueStack[ValueStack.Depth-1].Name, TableAlias=ValueStack[ValueStack.Depth-3].Name}; }

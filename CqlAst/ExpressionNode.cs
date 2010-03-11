@@ -26,8 +26,7 @@ using System;
 namespace CodeQL
 {
 
-	public class ExpressionNode
+	public abstract class ExpressionNode : Node
 	{
-
 	}
 }

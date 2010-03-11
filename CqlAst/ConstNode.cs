@@ -22,6 +22,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace CodeQL
 {
@@ -29,5 +30,10 @@ namespace CodeQL
 	public class ConstNode : ExpressionNode
 	{
 		public object Constant;
+		
+		public override IEnumerable<INode> Children {
+			get { yield break; }
+		}
+
 	}
 }

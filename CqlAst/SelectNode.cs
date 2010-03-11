@@ -30,10 +30,17 @@ namespace CodeQL
 
 	public class SelectNode : StatementNode
 	{
-		public List<SelectExpressionNode> SelectExpressions;
+		public List<SelectColumnNode> SelectColumns;
+		public TableNode FromTable;
 		
 		public override IEnumerable<INode> Children {
-			get { return SelectExpressions.Cast<INode>(); }
+			get 
+			{ 
+				if(FromTable != null)
+					yield return FromTable;
+				foreach(var node in SelectColumns.Cast<INode>())
+					yield return node;
+			}
 		}
 
 	}

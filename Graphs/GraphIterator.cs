@@ -31,6 +31,12 @@ namespace CodeQL {
 		T _start;
 		Func<T,IEnumerable<T>> _children;
 		public GraphIterator(T start, Func<T,IEnumerable<T>> children) {
+			#region contract
+			if(start == null)
+				throw new ArgumentNullException("start");
+			if(children == null)
+				throw new ArgumentNullException("children");
+			#endregion
 			_start = start;
 			_children = children;
 		}
@@ -47,5 +53,4 @@ namespace CodeQL {
 				
 			return this;
 		}
-	}
-}
+	}}

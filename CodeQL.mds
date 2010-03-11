@@ -22,7 +22,7 @@
       <Entry build="True" name="CodeQL.Testing" configuration="Release" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="CodeQL.Testing" single="True">
+  <StartMode startupentry="CodeQL.Console" single="True">
     <Execute type="None" entry="CodeQL" />
     <Execute type="None" entry="SQLDetector" />
     <Execute type="None" entry="CodeQL.UI" />

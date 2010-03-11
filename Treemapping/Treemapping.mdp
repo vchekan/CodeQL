@@ -1,4 +1,4 @@
-<Project name="Treemapping" fileversion="2.0" DefaultNamespace="Treemapping" language="C#" targetFramework="4.0" ctype="DotNetProject">
+<Project name="Treemapping" fileversion="2.0" DefaultNamespace="Treemapping" language="C#" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="Treemapping" />
@@ -14,6 +14,6 @@
     </Configuration>
   </Configurations>
   <References>
-    <ProjectReference type="Gac" localcopy="True" refto="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
 </Project>

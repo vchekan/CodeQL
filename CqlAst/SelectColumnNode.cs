@@ -1,5 +1,5 @@
 // 
-//  ColumnExpressionNode.cs
+//  SelectExpression.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -27,13 +27,24 @@ using System.Collections.Generic;
 namespace CodeQL
 {
 
-	public class ColumnExpressionNode : ExpressionNode
+	public class SelectColumnNode : Node
 	{
-		public string Name;
-		public string TableAlias;
+		public string ImplicitAlias;
+		public ExpressionNode Expression;
+		
+		public string EffectiveAlias {
+			get { 
+				if(ImplicitAlias != null)
+					return ImplicitAlias;
+				if(this.Expression is ColumnExpressionNode)
+					return (this.Expression as ColumnExpressionNode).Name;
+				// TODO: make name unique
+				return "UnnamedColumn";
+			}
+		}
 		
 		public override IEnumerable<INode> Children {
-			get {yield break;}
+			get { yield return Expression; }
 		}
 
 	}

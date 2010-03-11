@@ -1,10 +1,10 @@
 // 
-//  SelectExpression.cs
+//  TranslatorException.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
 // 
-//  Copyright (c) 2009 Vadim Chekan
+//  Copyright (c) 2010 Vadim Chekan
 // 
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,23 +23,8 @@
 
 using System;
 
-namespace CodeQL
-{
-
-	public class SelectExpressionNode
-	{
-		public string ImplicitAlias;
-		public ExpressionNode Expression;
-		
-		public string EffectiveAlias {
-			get { 
-				if(ImplicitAlias != null)
-					return ImplicitAlias;
-				if(this.Expression is ColumnExpressionNode)
-					return (this.Expression as ColumnExpressionNode).Name;
-				// TODO: make name unique
-				return "UnnamedColumn";
-			}
-		}
+namespace CodeQL {
+	public class TranslatorException : ApplicationException {
+		public TranslatorException(string message) : base(message) { }
 	}
 }

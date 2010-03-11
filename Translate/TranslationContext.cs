@@ -32,10 +32,11 @@ namespace CodeQL {
 		
 		BatchNode _batch;
 
-		public TranslationContext() {
+		public TranslationContext(BatchNode batch) {
 			if(_instance != null)
 				throw new ApplicationException("Context already initialized");
 			_instance = this;
+			_batch = batch;
 		}
 		
 		private static TranslationContext Instance {

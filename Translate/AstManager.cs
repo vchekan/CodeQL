@@ -28,7 +28,7 @@ namespace CodeQL {
 
 	public class AstManager {
 		public void AddTable(TableNode table, TableNode newTable, ref string alias) {
-			SelectExpressionNode select = (SelectExpressionNode)table.Parent;
+			SelectColumnNode select = (SelectColumnNode)table.Parent;
 			table.Parent.Remove(table);
 			//Add(newTable);
 		}
