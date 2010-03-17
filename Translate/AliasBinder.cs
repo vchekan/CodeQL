@@ -1,5 +1,5 @@
 // 
-//  GraphIterator.cs
+//  AliasBinder.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -23,44 +23,28 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeQL {
-
-
-	public class GraphIterator<T> {
-		T _start;
-		Func<T,IEnumerable<T>> _children;
-		public GraphIterator(T start, Func<T,IEnumerable<T>> children) {
-			#region contract
-			if(start == null)
-				throw new ArgumentNullException("start");
-			if(children == null)
-				throw new ArgumentNullException("children");
-			#endregion
-			_start = start;
-			_children = children;
-		}
-		
-		public IEnumerable<T> BreadthFirst() {
-			Queue<T> queue = new Queue<T>();
-			queue.Enqueue(_start);
-			do {
-				T node = queue.Dequeue();
-				yield return node;
-				foreach( var child in _children(node))
-					queue.Enqueue(child);
-			} while(queue.Count > 0);
-		}
-		
-		public IEnumerable<T> DepthFirst() {
-			Stack<T> stack = new Stack<T>();
-			stack.Push(_start);
-			while(stack.Count>0) {
-				T node = stack.Pop();
-				yield return node;
-				foreach(var child in _children(node))
-					stack.Push(child);
-			}
+	public class AliasBinder {
+		public void Run() {
+			/*
+			 * Note: aliases have scope. Alias in subquery can override alias from the outer one.
+			 * Also alias can not be visible from sibling subqueries.
+			 * 
+			 * Alias scope are easily followed if we walk graph in Breath First order.
+			 * Each time we visit a Statement, we can collect JOIN and FROM declarations
+			 * and their aliases. Thus "local" alias will override the hihger orrder one
+			 * while maintaning aliases declared in higher statements.
+			 * 
+			 * But "sibling" statements are a problem because we need to purge
+			 * alias when switching to sibling statemen.
+			 */
+			
+			var aliasTableMap = new GraphIterator<INode>(TranslationContext.Batch, node => node.Children).
+				BreadthFirst().
+				OfType<TableNode>().
+				ToDictionary(t => t.Alias, StringComparer.OrdinalIgnoreCase);
 		}
 	}
 }

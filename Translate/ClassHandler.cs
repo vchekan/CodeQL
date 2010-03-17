@@ -71,11 +71,13 @@ namespace CodeQL
 		}
 		
 		public void Run() {
-			new GraphIterator<INode>(TranslationContext.Batch, n => n.Children).
-				BreadthFirst(node=>{
-					if(node is TableNode && (node as TableNode).Name.ToLower() == "class")
-						HandleClass(node as TableNode);
-				});
+			var classTables = new GraphIterator<INode>(TranslationContext.Batch, n => n.Children).
+				BreadthFirst().
+				OfType<TableNode>().
+				Where(t => t.Name.Equals("class", StringComparison.InvariantCultureIgnoreCase));
+
+			foreach(var table in classTables)
+				HandleClass(table);
 		}
 		
 		void HandleClass(TableNode classTable) {
