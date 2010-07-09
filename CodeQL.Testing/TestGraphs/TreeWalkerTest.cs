@@ -28,10 +28,7 @@ using NUnit.Framework;
 namespace CodeQL.Testing {
 	[TestFixture]
 	public class TreeWalkerTest {
-
-		[Test]
-		public void DepthFirst() {
-			var tree = 
+			Node tree = 
 			#region tree declaration
 				new Node("1", new[] {
 			        new Node("2", new[] {
@@ -44,17 +41,37 @@ namespace CodeQL.Testing {
 					}),
 				});
 			#endregion
+
+		[Test]
+		public void DepthFirst() {
 			
-			string last = null;
-			new CodeQL.GraphIterator<Node>(tree, n => n.Children).
+			string[] expect = {"1","2","5","6","3","4","7"};
+			var result = new CodeQL.GraphIterator<Node>(tree, n => n.Children).
 				BreadthFirst().
-				Select(n => n.Label).
-				ToList().ForEach(label => {
-					Console.WriteLine(label);
-					if(last != null)
-						Assert.Greater(label, last);
-					last = label;
-				});
+				Select(n => n.Label);
+			Assert.IsTrue(Enumerable.SequenceEqual(expect, result));
+		}
+		
+		[Test]
+		public void Scope() {
+			string[] expect = {
+				"1 []",
+				"6 [1]",
+				"7 [6, 1]",
+				"5 [1]",
+				"2 [1]",
+				"4 [2, 1]",
+				"3 [2, 1]"
+			};
+			var result = new List<string>();
+			new CodeQL.GraphIterator<Node>(tree, n => n.Children).
+				DepthFirst((n,p) => {
+						result.Add(string.Format("{0} [{1}]", 
+					                  n.Label, 
+					                  string.Join(", ",p.Select(x => x.Label).ToArray())
+					           ));
+					});
+			Assert.IsTrue(Enumerable.SequenceEqual(result, expect));
 		}
 		
 		class Node {

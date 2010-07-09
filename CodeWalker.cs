@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using Mono.Cecil;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.IO;
 
 namespace CodeQL
 {

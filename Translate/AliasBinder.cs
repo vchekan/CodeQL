@@ -34,11 +34,11 @@ namespace CodeQL {
 			 * 
 			 * Alias scope are easily followed if we walk graph in Breath First order.
 			 * Each time we visit a Statement, we can collect JOIN and FROM declarations
-			 * and their aliases. Thus "local" alias will override the hihger orrder one
+			 * and their aliases. Thus "local" alias will override the higher order one
 			 * while maintaning aliases declared in higher statements.
 			 * 
 			 * But "sibling" statements are a problem because we need to purge
-			 * alias when switching to sibling statemen.
+			 * alias when leaving the current statement and switching to sibling statemen.
 			 */
 			
 			var aliasTableMap = new GraphIterator<INode>(TranslationContext.Batch, node => node.Children).

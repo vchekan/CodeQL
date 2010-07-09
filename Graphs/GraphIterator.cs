@@ -30,6 +30,7 @@ namespace CodeQL {
 	public class GraphIterator<T> {
 		T _start;
 		Func<T,IEnumerable<T>> _children;
+		
 		public GraphIterator(T start, Func<T,IEnumerable<T>> children) {
 			#region contract
 			if(start == null)
@@ -42,15 +43,26 @@ namespace CodeQL {
 		}
 		
 		public IEnumerable<T> BreadthFirst() {
-			Queue<T> queue = new Queue<T>();
+			var queue = new Queue<T>();
 			queue.Enqueue(_start);
 			do {
-				T node = queue.Dequeue();
+				var node = queue.Dequeue();
 				yield return node;
 				foreach( var child in _children(node))
 					queue.Enqueue(child);
 			} while(queue.Count > 0);
 		}
+
+		/*public IEnumerable<Tuple<T,StepType>> BreadthFirstEx() {
+			var queue = new Queue<Tuple<T,StepType>>();
+			queue.Enqueue(_start);
+			do {
+				var node = queue.Dequeue();
+				yield return node;
+				foreach( var child in _children(node))
+					queue.Enqueue( new Tuple<T,StepType>(child, StepType.Deep) );
+			} while(queue.Count > 0);
+		}*/
 		
 		public IEnumerable<T> DepthFirst() {
 			Stack<T> stack = new Stack<T>();
@@ -61,6 +73,44 @@ namespace CodeQL {
 				foreach(var child in _children(node))
 					stack.Push(child);
 			}
+		}
+		
+		/// <summary>
+		/// Breadth First with path tracking
+		/// </summary>
+		public void DepthFirst(Action<T,IEnumerable<T>> callback) {
+			var nodes = new Stack<T>();
+			var parents = new Stack<T>();
+			var levels = new Stack<int>();
+			
+			nodes.Push(_start);
+			
+			do {
+				var node = nodes.Pop();
+				
+				callback(node, parents);
+				
+				int count = 0;
+				foreach(var child in _children(node)) {
+					nodes.Push(child);
+					if(count++ == 0)
+						parents.Push(node);
+				}
+				
+				if(count > 0) {
+					levels.Push(count);
+				} else {
+					int level;
+					do {
+						level = levels.Pop()-1;
+						levels.Push(level);
+						if(level == 0) {
+							levels.Pop();
+							parents.Pop();
+						}
+					} while(level == 0 && levels.Count > 0);
+				}
+			} while(nodes.Count > 0);
 		}
 	}
 }
