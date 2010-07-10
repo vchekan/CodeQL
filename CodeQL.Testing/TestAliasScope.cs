@@ -1,5 +1,5 @@
 // 
-//  AliasBinder.cs
+//  TestAliasScope.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -20,22 +20,51 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using NUnit.Framework;
+using CodeQL.Queries;
 
-namespace CodeQL {
-	public class AliasBinder {
-		public void Run() {
-			/*
-			 * Note: aliases have scope. Alias in subquery can override alias from the outer one.
-			 * Also alias can not be visible from sibling subqueries.
-			 */
-			var aliasTableMap = new GraphIterator<INode>(TranslationContext.Batch, node => node.Children).
-				BreadthFirst().
-				OfType<TableNode>().
-				ToDictionary(t => t.Alias, StringComparer.OrdinalIgnoreCase);
+namespace CodeQL.Testing {
+
+	[TestFixture]
+	[Ignore("Requires sub-select implementation to test")]
+	public class TestAliasScope {
+		[Test]
+		public void AlisScopeLocal() {
+		}
+		
+		[Test]
+		public void AliasScopeParent() {
+			string cql = @"select a.name, count(cl) cnt
+from assembly a
+natural join a.class cl";
+			var tr = new SqlTranslator();
+			tr.AfterTransformComplete += () => {
+				//TranslationContext.Batch;
+			};
+			tr.Translate(cql);
+			
+		}
+		
+		[Test]
+		public void AliasScopeLocalOverrideParent() {
+			
+		}
+		
+		[Test]
+		public void AlisScopeCantSeeChild() {
+			
+		}
+		
+		[Test]
+		public void AliasScopeCantSeeLeftSibling() {
+			
+		}
+
+		[Test]
+		public void AliasScopeCantSeeRightSibling() {
+			
 		}
 	}
 }
+

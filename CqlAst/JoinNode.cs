@@ -1,5 +1,5 @@
 // 
-//  AliasBinder.cs
+//  JoinNode.cs
 //  
 //  Author:
 //       Vadim Chekan <kot.begemot@gmail.com>
@@ -20,22 +20,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 // 
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace CodeQL {
-	public class AliasBinder {
-		public void Run() {
-			/*
-			 * Note: aliases have scope. Alias in subquery can override alias from the outer one.
-			 * Also alias can not be visible from sibling subqueries.
-			 */
-			var aliasTableMap = new GraphIterator<INode>(TranslationContext.Batch, node => node.Children).
-				BreadthFirst().
-				OfType<TableNode>().
-				ToDictionary(t => t.Alias, StringComparer.OrdinalIgnoreCase);
-		}
+	public abstract class JoinNode : Node {
+		
 	}
 }
+

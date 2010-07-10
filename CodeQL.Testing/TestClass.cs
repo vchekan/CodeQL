@@ -21,6 +21,7 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using CodeQL;
+using CodeQL.Queries;
 
 namespace CodeQL.Testing
 {
@@ -54,7 +55,7 @@ join property pr on pr belongs to att and property.name='Title'").ToList();
 		public void ClassCount() {
 			object result = new RawQuery().SelectScalar("select count(*) from type");
 			Assert.IsAssignableFrom(typeof(long), result);
-			Assert.AreEqual(5, (long)result);
+			Assert.AreEqual(8, (long)result);
 		}
 
 		[Test]

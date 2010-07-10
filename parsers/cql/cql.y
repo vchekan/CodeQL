@@ -24,7 +24,8 @@
 %namespace CodeQL.parsers.cql
 %partial
 
-%token SELECT FROM WHERE JOIN LEFT RIGHT  LE GE NE IS USED IN PUBLIC INTERNAL PROTECTED PRIVATE AS
+%token SELECT FROM WHERE JOIN LEFT RIGHT NATURAL
+	LE GE NE IS USED IN PUBLIC INTERNAL PROTECTED PRIVATE AS
 %token <Number> NUMBER
 %token <Name> NAME
 %right NOT
@@ -39,6 +40,8 @@
 	public SelectColumnNode SelectExpr;
 	public ExpressionNode Expression;
 	public ColumnExpressionNode ColumnExpression;
+	public JoinNode Join;
+	public List<JoinNode> Joins;
 	// set by scanner
 	public string Name;
 	public int Number;
@@ -50,6 +53,9 @@
 %type <SelectExpr> selectColumn
 %type <Expression> expr
 %type <ColumnExpression> column
+%type <Join> join
+%type <Joins> joins
+%type <Joins> joinsOpt
 
 %%
 
@@ -66,7 +72,8 @@ select
 	: SELECT selectExprs FROM NAME NAME joinsOpt whereOpt		{ 
 			$$ = new SelectNode { 
 				SelectColumns=$2,
-				FromTable = new TableNode {Name = $4, Alias = $5 }
+				FromTable = new TableNode {Name = $4, Alias = $5 },
+				Joins=$6
 			}; 
 		}
 	;
@@ -89,16 +96,17 @@ joinsOpt
 	:
 	| joins
 	;
-	
-joins
-	: join
-	| joins join
+
+joins 
+	: join			{$$ = new List<JoinNode>(); $$.Add($1); }
+	| joins join	{$$.Add($2);}
 	;
 
 join
 	: JOIN
 	| LEFT JOIN
 	| RIGHT JOIN
+	| NATURAL JOIN NAME '.' NAME NAME {$$ = new PropertyJoinNode {ForeignTableAlias=$3, ForeignProperty=$5, TableAlias=$6};}
 	;
 	
 whereOpt

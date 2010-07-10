@@ -23,13 +23,20 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace CodeQL
+namespace CodeQL.DataSources
 {
-	public class CodeWalker
+	/// <summary>
+	/// Parse Visual Studio or Monodevelop solutions and project files
+	/// and collect and parse binaries.
+	/// Does not do anything with found information and
+	/// delegates all logic to the caller through callbacks in Walk()
+	/// method.
+	/// </summary>
+	public class SolutionParser
 	{
 		public List<string> Files = new List<string>();
 		
-		public CodeWalker AddFile(string fileName) {
+		public SolutionParser AddFile(string fileName) {
 			if(fileName.EndsWith(".sln")) {
 				throw new NotImplementedException();
 			}
@@ -47,7 +54,7 @@ namespace CodeQL
 			return this;
 		}
 		
-		public CodeWalker AddFiles(IEnumerable<string> files) {
+		public SolutionParser AddFiles(IEnumerable<string> files) {
 			this.Files.AddRange(files);
 			return this;
 		}
@@ -186,7 +193,6 @@ namespace CodeQL
 			foreach(string rf in refs) {
 				yield return Path.GetFullPath(Path.Combine(baseDir, rf));
 			}
-			//}
 		}
 	}
 }

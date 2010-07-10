@@ -22,6 +22,8 @@ using System.IO;
 using Mono.Cecil;
 using CodeQL;
 using SysConsole=System.Console;
+using CodeQL.DataSources;
+using CodeQL.Queries;
 
 namespace CodeQL.Console
 {
@@ -42,7 +44,7 @@ namespace CodeQL.Console
 				Add("print", o => _action = Print ).
 				Add("console", o => { _action = new CodeConsole().Run; }).
 				Add("scan", o => _action = () => {new BinScanner().AddFiles(_files).Scan(); }).
-				Add("translate", o => _action = () => new CodeQLQuery().Select(_unparsed)).
+				Add("translate", o => _action = () => new SqlTranslator().Select(_unparsed)).
 				Add("help|h|?", o => _action = () => { _options.WriteOptionDescriptions(SysConsole.Error); });
 
 			var remains = _options.Parse(args);
@@ -61,7 +63,7 @@ namespace CodeQL.Console
 		}
 		
 		static void Print() {
-			new CodeWalker().AddFiles(_files).Walk(
+			new SolutionParser().AddFiles(_files).Walk(
 		        (file,asm) => SysConsole.WriteLine("{0}:{1}", file, asm.Name.Name),
 			    type => SysConsole.WriteLine("  {0}",type.Name),
 				att => SysConsole.WriteLine("	{0}", att),

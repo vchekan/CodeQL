@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeQL
+namespace CodeQL.Queries
 {
 	// TODO: implement IDisposable
 	public class RawQuery

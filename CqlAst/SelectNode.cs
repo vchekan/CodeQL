@@ -32,6 +32,7 @@ namespace CodeQL
 	{
 		public List<SelectColumnNode> SelectColumns;
 		public TableNode FromTable;
+		public List<JoinNode> Joins;
 		
 		public override IEnumerable<INode> Children {
 			get 

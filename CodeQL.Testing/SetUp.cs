@@ -24,6 +24,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
+using CodeQL.DataSources;
 
 namespace CodeQL.Testing
 {

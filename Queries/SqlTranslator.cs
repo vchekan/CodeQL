@@ -24,12 +24,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace CodeQL
+namespace CodeQL.Queries
 {
-	public class CodeQLQuery
+	/// <summary>
+	/// Translate CodeQL into native SQL
+	/// </summary>
+	public class SqlTranslator
 	{
-		Db _db = new Db();
+		public Action AfterTransformComplete;
+		public Action BeforeTransformStart;
 		
+		// TODO: this is persistence business, it does not belong to translation
 		public IEnumerable<object[]> Select(string sql, params object[] arguments) {
 			string translatedSql = Translate(sql, arguments);
 			
@@ -47,12 +52,22 @@ namespace CodeQL
 			
 			using(TranslationContext ctx = new TranslationContext(parser.Batch))
 			{
+				if(BeforeTransformStart != null)
+					BeforeTransformStart();
+				
+				// resolve aliases first
+				new AliasBinder().Run();
+				
 				// run transforms
 				new ClassHandler().Run();
+				
+				if(AfterTransformComplete != null)
+					AfterTransformComplete();
 			}
+			
 			return new SqlWriter().Write(parser.Batch);
 		}
 		
-		static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(CodeQLQuery).FullName);
+		static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(SqlTranslator).FullName);
 	}
 }

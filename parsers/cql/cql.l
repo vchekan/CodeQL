@@ -36,6 +36,7 @@ where		{return (int)Tokens.WHERE;}
 join		{return (int)Tokens.JOIN;}
 left		{return (int)Tokens.LEFT;}
 right		{return (int)Tokens.RIGHT;}
+natural		{return (int)Tokens.NATURAL;}
 '<='		{return (int)Tokens.LE;}
 '>='		{return (int)Tokens.GE;}
 '!='|'<>'	{return (int)Tokens.NE;}

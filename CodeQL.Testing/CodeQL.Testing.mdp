@@ -23,6 +23,7 @@
     <File subtype="Code" buildaction="Compile" name="TestTranslator.cs" />
     <File subtype="Directory" buildaction="Compile" name="TestGraphs" />
     <File subtype="Code" buildaction="Compile" name="TestGraphs/TreeWalkerTest.cs" />
+    <File subtype="Code" buildaction="Compile" name="TestAliasScope.cs" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="CodeQL" />

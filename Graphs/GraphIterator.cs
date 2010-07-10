@@ -102,8 +102,7 @@ namespace CodeQL {
 				} else {
 					int level;
 					do {
-						level = levels.Pop()-1;
-						levels.Push(level);
+						levels.Push(level = levels.Pop()-1);
 						if(level == 0) {
 							levels.Pop();
 							parents.Pop();

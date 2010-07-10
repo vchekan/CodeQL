@@ -24,6 +24,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using CodeQL.Queries;
 
 namespace CodeQL.Testing
 {
@@ -39,8 +40,10 @@ from class c
 where c is public";
 			#endregion
 			
-			var res = new CodeQLQuery().Select(sql).ToList();
-			Assert.AreEqual(4, res.Count);
+			var res = new SqlTranslator().Select(sql).ToList();
+			Assert.AreEqual(6, res.Count);
 		}
+		
+
 	}
 }

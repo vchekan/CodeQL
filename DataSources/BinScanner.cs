@@ -20,11 +20,14 @@ using System;
 using System.Collections.Generic;
 using Mono.Cecil;
 
-namespace CodeQL
+namespace CodeQL.DataSources
 {
+	/// <summary>
+	/// Scan binary assemblies and build database
+	/// </summary>
 	public class BinScanner
 	{
-		private CodeWalker _walker = new CodeWalker();
+		private SolutionParser _walker = new SolutionParser();
 		
 		public BinScanner AddFile(string fileName) {
 			_walker.AddFile(fileName);
