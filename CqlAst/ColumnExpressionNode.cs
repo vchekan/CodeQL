@@ -31,6 +31,8 @@ namespace CodeQL
 	{
 		public string Name;
 		public string TableAlias;
+		/// <summary>Is set in run time by AliasBinder</summary>
+		public DataSourceNode AliasReference;
 		
 		public override IEnumerable<INode> Children {
 			get {yield break;}

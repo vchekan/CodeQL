@@ -52,7 +52,6 @@
     <File subtype="Code" buildaction="Compile" name="CqlAst/Node.cs" />
     <File subtype="Code" buildaction="Compile" name="CqlAst/StatementNode.cs" />
     <File subtype="Code" buildaction="Compile" name="CqlAst/SelectColumnNode.cs" />
-    <File subtype="Code" buildaction="Compile" name="TranslatorException.cs" />
     <File subtype="Code" buildaction="Compile" name="CqlAst/JoinType.cs" />
     <File subtype="Code" buildaction="Compile" name="Translate/AliasBinder.cs" />
     <File subtype="Code" buildaction="Compile" name="CqlAst/JoinNode.cs" />
@@ -71,6 +70,14 @@
     <File subtype="Directory" buildaction="Compile" name="." />
     <File subtype="Code" buildaction="Nothing" name="parsers/cs/cs2.y" />
     <File subtype="Directory" buildaction="Compile" name="." />
+    <File subtype="Code" buildaction="Compile" name="CqlAst/DataSource.cs" />
+    <File subtype="Code" buildaction="Compile" name="Translate/ITranslationPlugin.cs" />
+    <File subtype="Directory" buildaction="Compile" name="Linq" />
+    <File subtype="Code" buildaction="Compile" name="Linq/Enumerable.cs" />
+    <File subtype="Directory" buildaction="Compile" name="Exceptions" />
+    <File subtype="Code" buildaction="Compile" name="Exceptions/TranslatorException.cs" />
+    <File subtype="Directory" buildaction="Compile" name="." />
+    <File subtype="Code" buildaction="Compile" name="Exceptions/UnresolvedAliasException.cs" />
   </Contents>
   <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile" BuildTargetName="build">
     <BuildFilesVar />

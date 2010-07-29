@@ -71,7 +71,7 @@ namespace CodeQL
 		}
 		
 		public void Run() {
-			var classTables = new GraphIterator<INode>(TranslationContext.Batch, n => n.Children).
+			var classTables = new GraphIterator<INode>(TranslationContext.Instance.Batch, n => n.Children).
 				BreadthFirst().
 				OfType<TableNode>().
 				Where(t => t.Name.Equals("class", StringComparison.InvariantCultureIgnoreCase));

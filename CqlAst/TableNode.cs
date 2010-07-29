@@ -27,10 +27,9 @@ using System.Collections.Generic;
 namespace CodeQL
 {
 
-	public class TableNode : Node
+	public class TableNode : DataSourceNode
 	{
 		public string Name;
-		public string Alias;
 		
 		public override IEnumerable<INode> Children {
 			get {yield break;}
